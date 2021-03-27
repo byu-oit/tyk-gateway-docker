@@ -11,7 +11,7 @@ services:
       - ./apps:/opt/tyk-gateway/apps
       - ./middleware:/opt/tyk-gateway/middleware
     environment:
-      #-local
+      #-local swap comments below when connected to onPrem gateway
       - TYK_GW_SECRET=db471355-0424-423a-8f10-0d8f7618c479
       # On Prem version settings.
       #- TYK_GW_SECRET=2245CDD2-DEBA-41CC-A563-D07867894674
