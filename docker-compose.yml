@@ -10,6 +10,7 @@ services:
       - ./tyk.mdcb.conf:/opt/tyk-gateway/tyk.conf
       - ./apps:/opt/tyk-gateway/apps
       - ./middleware:/opt/tyk-gateway/middleware
+      - ./samples:/opt/tyk-gateway/samples
     environment:
       #-local swap comments below when connected to onPrem gateway
       - TYK_GW_SECRET=db471355-0424-423a-8f10-0d8f7618c479
