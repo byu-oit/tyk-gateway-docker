@@ -6,3 +6,5 @@ bundle.zip
 
 #JetBrains
 /.idea/*
+
+.DS_Store
