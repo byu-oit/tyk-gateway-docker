@@ -5,6 +5,9 @@ tyk.compose.conf
 bundle.zip
 
 #JetBrains
-/.idea/*
+.idea/*
 
 .DS_Store
+
+apps/importTest.json
+
