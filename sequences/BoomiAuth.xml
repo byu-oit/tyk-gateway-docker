@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="BoomiAuth" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="authorization-header" expression="get-property('transport', 'X-JWT-Assertion')"/>
+    <header name="X-WSS-JWT-Assertion" expression="get-property('authorization-header')" scope="transport"/>
+</sequence>

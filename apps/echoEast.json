@@ -1,10 +1,10 @@
 {
-  "name": "Echo West",
-  "slug": "echo-west",
+  "name": "Echo East",
+  "slug": "echo-east",
   "listen_port": 0,
   "protocol": "",
   "enable_proxy_protocol": false,
-  "api_id": "0E61DF2C-44DC-4BA7-9CA5-31D897AA4C1D",
+  "api_id": "98",
   "org_id": "default",
   "use_keyless": false,
   "use_oauth2": false,
@@ -19,11 +19,21 @@
     "auth_login_redirect": ""
   },
   "auth": {
-    "auth_header_name": "Authorization",
     "use_param": false,
     "param_name": "",
     "use_cookie": false,
-    "cookie_name": ""
+    "cookie_name": "",
+    "auth_header_name": "Authorization",
+    "use_certificate": false,
+    "validate_signature": false,
+    "signature": {
+      "algorithm": "",
+      "header": "",
+      "secret": "",
+      "allowed_clock_skew": 0,
+      "error_code": 0,
+      "error_message": ""
+    }
   },
   "auth_configs": null,
   "use_basic_auth": false,
@@ -119,8 +129,8 @@
   },
   "proxy": {
     "preserve_host_header": false,
-    "listen_path": "/echo-west/",
-    "target_url": "https://echo-west.byu-oit-apimanager-dev.amazon.byu.edu/v1/echo/asdf",
+    "listen_path": "/echo-east/",
+    "target_url": "https://echo-east.byu-oit-apimanager-dev.amazon.byu.edu/v1/echo/asdf",
     "disable_strip_slash": false,
     "strip_listen_path": true,
     "enable_load_balancing": false,

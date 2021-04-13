@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*    Copyright 2016 Brigham Young University
+*
+*    Licensed under the Apache License, Version 2.0 (the "License");
+*    you may not use this file except in compliance with the License.
+*    You may obtain a copy of the License at
+*
+*        http: //www.apache.org/licenses/LICENSE-2.0
+*
+*    Unless required by applicable law or agreed to in writing, software
+*    distributed under the License is distributed on an "AS IS" BASIS,
+*    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*    See the License for the specific language governing permissions and
+*    limitations under the License.
+*
+-->
+<sequence name="AddPeopleSoftWSSecurityHeader" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
+
+    <header action="remove" description="delete sm_user" name="sm_user" scope="transport"/>
+    <header action="remove" description="delete principal_net_id" name="principal_net_id" scope="transport"/>
+    <header action="remove" description="delete principal_byu_id" name="principal_byu_id" scope="transport"/>
+    <header action="remove" description="delete principal_id" name="principal_id" scope="transport"/>
+    <header action="remove" description="delete actor_id" name="actor_id" scope="transport"/>
+    <header action="remove" description="delete actor_byu_id" name="actor_byu_id" scope="transport"/>
+    <header action="remove" description="delete actor_net_id" name="actor_net_id" scope="transport"/>
+
+    <class description="decode JWT Header" name="edu.byu.wso2.apim.extensions.JWTDecoder"/>
+
+    <property description="getActorNetId"
+              expression="get-property('transport','Acting-For')"
+              name="actorNetId" scope="default" type="STRING"/>
+    <filter description="Actor Support" regex="false" source="boolean(get-property('transport','Acting-For'))">
+        <then>
+            <property description="addSMUserHeader"
+                      expression="get-property('resourceowner_net_id')"
+                      name="effective_net_id" scope="default" type="STRING"/>
+        </then>
+        <else>
+            <class description="check actor permissions" name="edu.byu.wso2.apim.extensions.CheckActorPermissions">
+                <property name="ResultPropertyName" value="canUseActor"/>
+                <property name="PRODsName" value="jdbc/BYUPRODB"/>
+            </class>
+            <filter description="Actor Use denied" regex="false" source="boolean(get-property('canUseActor'))">
+                <then>
+                    <makefault description="send fault" version="soap11">
+                        <code xmlns: value="soap11Env:Client" soap11Env="http://schemas.xmlsoap.org/soap/envelope/"/>
+                        <reason value="Not authorized"/>
+                        <detail>Not authorized to use Acting-For header</detail>
+                    </makefault>
+                    <property description="Set 403 return code" name="HTTP_SC"
+                              scope="axis2" type="STRING" value="403"/>
+                    <respond description="send fault"/>
+                </then>
+                <else/>
+            </filter>
+            <property description="addActorSMUserHeader"
+                      expression="get-property('actorNetId')" name="effective_net_id"
+                      scope="default" type="STRING"/>
+        </else>
+    </filter>
+
+    <header scope="default">
+        <wsse: xmlns: xmlns: Security
+               soapenv: mustUnderstand="1" soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse: xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                   UsernameToken>
+                <wsse: Username>changeme</wsse: Username>
+                <wsse:Password
+                        Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"/>
+            </wsse: UsernameToken>
+        </wsse: Security>
+    </header>
+    <enrich>
+        <source clone="true" property="effective_net_id" type="property"/>
+        <target
+                xmlns: wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+                xpath="$header//wsse:UsernameToken//wsse:Username/text()"/>
+    </enrich>
+</sequence>

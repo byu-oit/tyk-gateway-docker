@@ -4,7 +4,7 @@
   "listen_port": 0,
   "protocol": "",
   "enable_proxy_protocol": false,
-  "api_id": "2710CFB6-40AA-4E3A-AE11-9456BF3E0E1F",
+  "api_id": "99",
   "org_id": "default",
   "use_keyless": false,
   "use_oauth2": false,

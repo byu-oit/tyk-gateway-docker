@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="debug_out_flow" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- All the standard headers as well as the full payload of the message will be logged -->
+    <log level="full"/>
+    <log level="custom">
+        <property name="EndPoint" expression="get-property('ENDPOINT_PREFIX')"/>
+        <property name="Content-Type" expression="get-property('transport', 'Content-Type')"/>
+        <property name="Status-Code" expression="get-property('axis2', 'HTTP_SC')"/>
+        <property name="Context" expression="get-property('axis2', 'REST_URL_POSTFIX')"/>
+        <property name="Client-ID" expression="get-property('client_id')"/>
+    </log>
+</sequence>

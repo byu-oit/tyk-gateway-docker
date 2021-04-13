@@ -7,7 +7,7 @@ services:
     networks:
       - tyk
     volumes:
-      - ./tyk.mdcb.conf:/opt/tyk-gateway/tyk.conf
+      - ./tyk.standalone.conf:/opt/tyk-gateway/tyk.conf
       - ./apps:/opt/tyk-gateway/apps
       - ./middleware:/opt/tyk-gateway/middleware
       - ./samples:/opt/tyk-gateway/samples

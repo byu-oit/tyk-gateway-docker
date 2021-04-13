@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*    Copyright 2016 Brigham Young University
+*
+*    Licensed under the Apache License, Version 2.0 (the "License");
+*    you may not use this file except in compliance with the License.
+*    You may obtain a copy of the License at
+*
+*        http://www.apache.org/licenses/LICENSE-2.0
+*
+*    Unless required by applicable law or agreed to in writing, software
+*    distributed under the License is distributed on an "AS IS" BASIS,
+*    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*    See the License for the specific language governing permissions and
+*    limitations under the License.
+*
+-->
+<sequence name="AddCFrameworkHeaders" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+    <header action="remove" description="delete sm_user" name="sm_user" scope="transport"/>
+    <header action="remove" description="delete principal_net_id" name="principal_net_id" scope="transport"/>
+    <header action="remove" description="delete principal_byu_id" name="principal_byu_id" scope="transport"/>
+    <header action="remove" description="delete principal_id" name="principal_id" scope="transport"/>
+    <header action="remove" description="delete actor_id" name="actor_id" scope="transport"/>
+    <header action="remove" description="delete actor_byu_id" name="actor_byu_id" scope="transport"/>
+    <header action="remove" description="delete actor_net_id" name="actor_net_id" scope="transport"/>
+    <class description="decode JWT Header" name="edu.byu.wso2.apim.extensions.JWTDecoder"/>
+    <property description="getActorNetId"
+              expression="get-property('transport','Acting-For')"
+              name="actorNetId" scope="default" type="STRING"/>
+    <filter description="Actor Support" regex="false" source="boolean(get-property('transport','Acting-For'))">
+        <then>
+            <filter description="Has resource owner" regex="APPLICATION_USER" source="get-property('usertype')">
+                <then>
+                    <property description="add_RO_SMUserHeader"
+                              expression="get-property('resourceowner_net_id')"
+                              name="sm_user" scope="transport" type="STRING"/>
+                    <property description="add_RO_BYUIdHeader"
+                              expression="get-property('resourceowner_byu_id')"
+                              name="principal_byu_id" scope="transport" type="STRING"/>
+                    <property description="add_RO_NetIdHeader"
+                              expression="get-property('resourceowner_net_id')"
+                              name="principal_net_id" scope="transport" type="STRING"/>
+                    <property description="add_RO_PersonIdHeader"
+                              expression="get-property('resourceowner_person_id')"
+                              name="principal_id" scope="transport" type="STRING"/>
+                </then>
+                <else>
+                    <property description="add_CLIENT_SMUserHeader"
+                              expression="get-property('client_net_id')" name="sm_user"
+                              scope="transport" type="STRING"/>
+                    <property description="add_CLIENT_BYUIdHeader"
+                              expression="get-property('client_byu_id')"
+                              name="principal_byu_id" scope="transport" type="STRING"/>
+                    <property description="add_CLIENT_NetIdHeader"
+                              expression="get-property('client_net_id')"
+                              name="principal_net_id" scope="transport" type="STRING"/>
+                    <property description="add_CLIENT_PersonIdHeader"
+                              expression="get-property('client_person_id')"
+                              name="principal_id" scope="transport" type="STRING"/>
+                </else>
+            </filter>
+        </then>
+        <else>
+            <class description="check actor permissions" name="edu.byu.wso2.apim.extensions.CheckActorPermissions">
+                <property name="ResultPropertyName" value="canUseActor"/>
+                <property name="PRODsName" value="jdbc/BYUPRODB"/>
+            </class>
+            <filter description="Actor Use denied" regex="false" source="boolean(get-property('canUseActor'))">
+                <then>
+                    <!-- Set properties to make response -->
+                    <header name="To" action="remove"/>
+                    <property name="RESPONSE" value="true"/>
+                    <property name="NO_ENTITY_BODY" scope="axis2" action="remove"/>
+
+                    <payloadFactory description="set error message body" media-type="xml">
+                        <format>
+                            <am:fault xmlns:am="http://wso2.org/apimanager">
+                                <am:code>BYU-100</am:code>
+                                <am:type>Status report</am:type>
+                                <am:message>Acting-For Error</am:message>
+                                <am:description>Client application is not authorized to use Acting-For header
+                                </am:description>
+                            </am:fault>
+                        </format>
+                        <args/>
+                    </payloadFactory>
+                    <property description="Set 403 return code" name="HTTP_SC"
+                              scope="axis2" type="STRING" value="403"/>
+                    <send description="Send error response"/>
+                </then>
+                <else/>
+            </filter>
+            <property description="add_CLIENT_BYUIdHeader"
+                      expression="get-property('client_byu_id')"
+                      name="principal_byu_id" scope="transport" type="STRING"/>
+            <property description="add_CLIENT_NetIdHeader"
+                      expression="get-property('client_net_id')"
+                      name="principal_net_id" scope="transport" type="STRING"/>
+            <property description="add_CLIENT_PersonIdHeader"
+                      expression="get-property('client_person_id')"
+                      name="principal_id" scope="transport" type="STRING"/>
+            <property description="addActorNetIdHeader"
+                      expression="get-property('actorNetId')" name="actor_net_id"
+                      scope="transport" type="STRING"/>
+            <class description="LookupActorIdentifiers" name="edu.byu.wso2.apim.extensions.BYUIdentifiersLookup">
+                <property name="DsName" value="jdbc/BYUPRODB"/>
+                <property name="PropertyPrefix" value="actor"/>
+                <property name="NetIdPropertyToUse" value="actorNetId"/>
+            </class>
+            <property description="addActorSMUserHeader"
+                      expression="get-property('actorNetId')" name="sm_user"
+                      scope="transport" type="STRING"/>
+            <property description="addActorBYUIdHeader"
+                      expression="get-property('actorBYUId')" name="actor_byu_id"
+                      scope="transport" type="STRING"/>
+            <property description="addActorPersonIdHeader"
+                      expression="get-property('actorPersonId')" name="actor_id"
+                      scope="transport" type="STRING"/>
+        </else>
+    </filter>
+    <!-- Always add client_id header -->
+    <property description="add_CLIENT_IdHeader"
+              expression="get-property('client_id')"
+              name="client_id" scope="transport" type="STRING"/>
+</sequence>
