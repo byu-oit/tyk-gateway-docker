@@ -1,4 +1,3 @@
-
 var testJSVMData = new TykJS.TykMiddleware.NewMiddleware({});
 
 testJSVMData.NewProcessRequest(function(request, session, config) {

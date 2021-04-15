@@ -365,5 +365,5 @@ curl -X POST -H "x-tyk-authorization: Zls7rrBtx7hwDfk2G6rSJUskBZc31D8I" \
 #}
 
 # HOT Reload CRITICAL
-curl -H "x-tyk-authorization: Zls7rrBtx7hwDfk2G6rSJUskBZc31D8I" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
+curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
 curl -H "Authorization: 118f80271e85d4dd6921bed9f57b9094a" -s http://localhost:8080/echo-josh/ | python -mjson.tool

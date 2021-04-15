@@ -1,6 +1,6 @@
 {
-    "name": "Tyk Test API",
-    "api_id": "1",
+    "name": "Tyk Protected Test API",
+    "api_id": "2",
     "org_id": "default",
     "definition": {
         "location": "header",
@@ -18,7 +18,7 @@
         }
     },
     "proxy": {
-        "listen_path": "/tyk-api-test/",
+        "listen_path": "/protected-api-test/",
         "target_url": "http://httpbin.org",
         "strip_listen_path": true
     }
