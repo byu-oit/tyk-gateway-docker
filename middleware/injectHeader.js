@@ -1,12 +1,13 @@
 var testJSVMData = new TykJS.TykMiddleware.NewMiddleware({});
 
 testJSVMData.NewProcessRequest(function(request, session, config) {
-
-    log(JSON.stringify(request.Headers))
-
+    log("starting testJSVMData");
+    log(JSON.stringify(request.Headers));
     request.SetHeaders['custom-header'] = 'hello world';
-    request.SetHeaders['custom-uid'] = create_UUID();
-
+    var uuid = create_UUID();
+    log("| uuid = " + uuid + " |");
+    request.SetHeaders['custom-uuid'] = uuid;
+    log(JSON.stringify(request.SetHeaders));
     return testJSVMData.ReturnData(request, {});
 });
 

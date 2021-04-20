@@ -23,6 +23,14 @@
         "require_session": false,
         "raw_body_only": false
       }
+    ],
+    "post": [
+      {
+        "name": "byuEntityData",
+        "path": "./middleware/injectByuJwt.js",
+        "require_session": false,
+        "raw_body_only": false
+      }
     ]
   },
   "driver": "otto",
