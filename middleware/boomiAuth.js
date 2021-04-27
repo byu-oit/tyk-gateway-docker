@@ -2,22 +2,36 @@ var boomiAuth = new TykJS.TykMiddleware.NewMiddleware({});
 
 boomiAuth.NewProcessRequest(function(request, session, config) {
     log("|- NewProcessRequest() ---|");
-    //log("|--- request.ReturnOverrides: " + JSON.stringify(request.ReturnOverrides) );
-    log("|--- session: " + JSON.stringify(session) );
-    var headerResults = checkHeaders(request.Headers);
-    if(headerResults != undefined){
-        log("|--- headerResults NOT undefined : " + JSON.stringify(headerResults) );
-        request.ReturnOverrides = headerResults;
-        log("|--- headerResults NOT undefined : " + JSON.stringify(headerResults) );
-    }
-    else {
-        timestamp_middleware = new Date().getTime();
-        var secret = "secret";
-        var message = create_byuEntity();
-        var hash = CryptoJS.HmacSHA256( message, secret );
-        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-        request.SetHeaders['auth-jwt-byu-entity'] = hashInBase64;
-    }
     log(JSON.stringify(request.Headers));
+
+    // iterate through headers looking for X-Jwt-Assertion
+    for(var item in request.Headers) {
+        console.log(item + ": " + request.Headers[item]);
+
+        // compare formated header key
+        if ('X-Jwt-Assertion' == formatHeaderKey(item)) {
+            // add X-Wss-Jwt-Assertion header
+            request.SetHeaders['X-Wss-Jwt-Assertion'] = String(request.Headers[item]);
+            console.log('\tAdd header X-Wss-Jwt-Assertion header: ' + request.Headers[item]);
+
+            // remove X-Jwt-Assertion header
+            request.DeleteHeaders[0] = item;
+            console.log("\tRemove header: " + item);
+        }
+    }    
+
     return boomiAuth.ReturnData(request, {});
 });
+
+function formatHeaderKey(str) {
+    // convert str to header key format
+    var separateWord = str.toLowerCase().split(/[\s_-]+/);
+    for (var i = 0; i < separateWord.length; i++) {
+       separateWord[i] = separateWord[i].charAt(0).toUpperCase() + separateWord[i].substring(1);
+    }
+    return separateWord.join('-');
+ }
+ 
+
+
+  
