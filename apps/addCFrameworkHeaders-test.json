@@ -1,6 +1,6 @@
 {
-  "name": "add Peoplesoft SW Security Header Test API",
-  "api_id": "103",
+  "name": "add C Framework Header Test API",
+  "api_id": "106",
   "org_id": "default",
   "definition": {
     "location": "header",
@@ -18,8 +18,8 @@
   "custom_middleware": {
     "post": [
       {
-        "name": "addPeopleSoftWSSecurityHeader",
-        "path": "./middleware/addPeopleSoftWSSecurityHeader.js",
+        "name": "addCFrameworkHeader",
+        "path": "./middleware/addCFrameworkHeader.js",
         "require_session": false,
         "raw_body_only": false
       }
@@ -27,7 +27,7 @@
   },
   "driver": "otto",
   "proxy": {
-    "listen_path": "/addPS-WS-SecurityHeader-test/",
+    "listen_path": "/add-cframework-header-test/",
     "target_url": "http://httpbin.org",
     "strip_listen_path": true
   }

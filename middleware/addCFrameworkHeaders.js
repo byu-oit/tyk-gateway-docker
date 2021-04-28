@@ -1,7 +1,7 @@
-var addPeopleSoftWSSecurityHeader = new TykJS.TykMiddleware.NewMiddleware({});
+var addCFrameworkHeader = new TykJS.TykMiddleware.NewMiddleware({});
 
-addPeopleSoftWSSecurityHeader.NewProcessRequest(function(request, session, config) {
-    log("|- addPeopleSoftWSSecurityHeader() START---|");
+addCFrameworkHeader.NewProcessRequest(function(request, session, config) {
+    log("|- addCFrameworkHeader() START---|");
     var errorResults = undefined;  // on error return object of error data for returnOverrides.
     var actingFor1 = String(request.Headers["Acting-For"]);
     if ( actingFor1 == "false"){
@@ -62,7 +62,7 @@ addPeopleSoftWSSecurityHeader.NewProcessRequest(function(request, session, confi
         log("ReturnOverrides" + JSON.stringify(request.ReturnOverrides));
     }
 
-    return addPeopleSoftWSSecurityHeader.ReturnData(request, {});
+    return addCFrameworkHeader.ReturnData(request, {});
 });
 
 function canUseActorPermissions(){
