@@ -11,3 +11,5 @@ bundle.zip
 
 apps/importTest.json
 
+**/.terraform/*
+*.tfstate
