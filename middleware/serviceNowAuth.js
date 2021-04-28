@@ -1,8 +1,9 @@
-var boomiAuth = new TykJS.TykMiddleware.NewMiddleware({});
+var serviceNowAuth = new TykJS.TykMiddleware.NewMiddleware({});
 
-boomiAuth.NewProcessRequest(function(request, session, config) {
+serviceNowAuth.NewProcessRequest(function(request, session, config) {
     log("|- NewProcessRequest() ---|");
     log(JSON.stringify(request.Headers));
+
 
     // iterate through headers looking for X-Jwt-Assertion
     for(var item in request.Headers) {
@@ -10,9 +11,12 @@ boomiAuth.NewProcessRequest(function(request, session, config) {
 
         // compare formated header key
         if ('X-Jwt-Assertion' == formatHeaderKey(item)) {
+            // concatenate XJWTAssertion with header value
+            var authStr = 'XJWTAssertion ' + String(request.Headers[item]);
+
             // add X-Wss-Jwt-Assertion header
-            request.SetHeaders['X-Wss-Jwt-Assertion'] = String(request.Headers[item]);
-            console.log('\tAdd header X-Wss-Jwt-Assertion header: ' + request.Headers[item]);
+            request.SetHeaders['Authorization'] = authStr;
+            console.log('\tAdd header Authorization: ' + authStr);
 
             // remove X-Jwt-Assertion header
             request.DeleteHeaders[0] = item;
@@ -21,7 +25,7 @@ boomiAuth.NewProcessRequest(function(request, session, config) {
         }
     }    
 
-    return boomiAuth.ReturnData(request, {});
+    return serviceNowAuth.ReturnData(request, {});
 });
 
 function formatHeaderKey(str) {
@@ -32,7 +36,3 @@ function formatHeaderKey(str) {
     }
     return separateWord.join('-');
  }
- 
-
-
-  
