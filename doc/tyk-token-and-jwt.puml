@@ -1,0 +1,48 @@
+@startuml tyk-token-and-jwt
+
+participant Client as client
+participant Gateway as gw
+participant "Tyk Dashboard" as tyk
+participant Hydra as hydra
+participant "Persons Cache" as persons
+participant "JWT Cache" as jwt
+participant API as api
+
+group "Token creation"
+    ...Oauth Handshake\n(Note: populate id token in Hydra login from SAML from CAS)...
+    client -> gw : create_token(auth_code)
+    gw -> hydra : create_token(auth_code)
+    hydra --> gw : tokens(access, id, refresh)
+    gw -> tyk : register(token, security_policy)
+    gw --> client : token
+end
+
+group "API Call"
+    client -> gw : api_call(token)
+    gw -> jwt : get_JWT(token)
+    jwt --> gw : JWT
+    alt "no JWT, need to create and store it"
+        gw -> hydra : introspect(token)
+        hydra --> gw : claims(ro:byu_id, client:client_id)
+        gw -> persons : get_person(byu_id)
+        persons --> gw : person_data
+        gw -> persons : get_person(client_id)
+        persons --> gw : person_data
+        gw -> gw : construct_jwt(person_data)
+        gw -> jwt : put_jwt(token, JWT, 15 min ttl)
+    end
+    gw -> api : api_call(JWT)
+    api --> gw : Some API Response
+    gw --> client : Some API Response
+end
+
+group "Revoke Token"
+    client -> gw : revoke(token)
+    gw -> tyk : revoke(token)
+    gw -> jwt : delete(token)
+    gw -> hydra : revoke(token)
+    hydra --> gw : 200
+    gw -> client : 200
+end
+
+@enduml
