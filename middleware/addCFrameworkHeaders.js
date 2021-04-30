@@ -5,21 +5,22 @@ addCFrameworkHeader.NewProcessRequest(function(request, session, config) {
     var errorResults = undefined;  // on error return object of error data for returnOverrides.
     var actingFor1 = String(request.Headers["Acting-For"]);
     if ( actingFor1 == "false"){
-        if (request.Headers["Resourceowner_net_id"]) {
-            request.SetHeaders["Effective_net_id"] = String(request.Headers["Resourceowner_net_id"]);;
-            log("1- Successful ActingFor == false: effective_net_id set to: " + request.Headers["Resourceowner_net_id"]);
+        log("actingFor == false");
+        // getProperty('usertype') not transport??
+        var usertype = 'APPLICATION_USER'; // where does it come from.  !!!!
+        if (usertype == 'APPLICATION_USER') {
+            request.SetHeaders["sm_user"] = String(request.Headers["Resourceowner_net_id"]);
+            request.SetHeaders["principal_byu_id"] = String(request.Headers["Resourceowner_byu_id"]);
+            request.SetHeaders["principal_net_id"] = String(request.Headers["Resourceowner_net_id"]);
+            request.SetHeaders["principal_id"] = String(request.Headers["Resourceowner_person_id"]);
+            log("1- Successful ActingFor == false: effective_net_id set to: " + JSON.stringify(request.SetHeaders));
         }
-        else {
-            errorResults = {
-                ResponseError: "Invalid Request",
-                ResponseBody: "Header Missing from request",
-                ResponseCode: 400,
-                ResponseHeaders: {
-                    "X-Foo": "Bar",
-                    "X-Baz": "Qux"
-                }
-            }
-            log("|---1 ActingFor NOT false : Returning: returnOverrides Data");
+        else {  // usertype NOT APPLICATION_USER
+            request.SetHeaders["sm_user"] = String(request.Headers["Client_net_id"]);
+            request.SetHeaders["principal_byu_id"] = String(request.Headers["Client_byu_id"]);
+            request.SetHeaders["principal_net_id"] = String(request.Headers["Client_net_id"]);
+            request.SetHeaders["principal_id"] = String(request.Headers["Client_person_id"]);
+            log("1- Successful ActingFor == false: effective_net_id set to: " + JSON.stringify(request.SetHeaders));
         }
     }
     else {

@@ -17,6 +17,7 @@
 -->
 <sequence name="AddCFrameworkHeaders" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+
     <header action="remove" description="delete sm_user" name="sm_user" scope="transport"/>
     <header action="remove" description="delete principal_net_id" name="principal_net_id" scope="transport"/>
     <header action="remove" description="delete principal_byu_id" name="principal_byu_id" scope="transport"/>
@@ -24,7 +25,9 @@
     <header action="remove" description="delete actor_id" name="actor_id" scope="transport"/>
     <header action="remove" description="delete actor_byu_id" name="actor_byu_id" scope="transport"/>
     <header action="remove" description="delete actor_net_id" name="actor_net_id" scope="transport"/>
+
     <class description="decode JWT Header" name="edu.byu.wso2.apim.extensions.JWTDecoder"/>
+
     <property description="getActorNetId"
               expression="get-property('transport','Acting-For')"
               name="actorNetId" scope="default" type="STRING"/>
