@@ -16,7 +16,7 @@
     }
   },
   "custom_middleware": {
-    "post": [
+    "pre": [
       {
         "name": "deletePeopleSoftHeaders",
         "path": "./middleware/deletePeopleSoftHeaders.js",
