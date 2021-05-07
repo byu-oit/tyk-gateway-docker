@@ -1,0 +1,34 @@
+{
+    "name": "PeopleSoftREST Header Test",
+    "api_id": "106",
+    "org_id": "default",
+    "definition": {
+      "location": "header",
+      "key": "version"
+    },
+    "use_keyless": true,
+    "version_data": {
+      "not_versioned": true,
+      "versions": {
+        "Default": {
+          "name": "Default"
+        }
+      }
+    },
+    "custom_middleware": {
+      "post": [
+        {
+          "name": "peopleSoftREST",
+          "path": "./middleware/peopleSoftREST.js",
+          "require_session": false,
+          "raw_body_only": false
+        }
+      ]
+    },
+    "driver": "otto",
+    "proxy": {
+      "listen_path": "/peoplesoftrest-test/",
+      "target_url": "http://httpbin.org",
+      "strip_listen_path": true
+    }
+  }
