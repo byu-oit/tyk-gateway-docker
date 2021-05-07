@@ -1,12 +1,16 @@
-var addCFrameworkHeader = new TykJS.TykMiddleware.NewMiddleware({});
+var peopleSoftAddIP = new TykJS.TykMiddleware.NewMiddleware({});
 
-addCFrameworkHeader.NewProcessRequest(function(request, session, config) {
-    log("|- addCFrameworkHeader() START---|");
+peopleSoftAddIP.NewProcessRequest(function(request, session, config) {
+    log("|- peopleSoftAddIP() START---|");
     var errorResults = undefined;  // on error return object of error data for returnOverrides.
+    // Get Actor Net ID: header Acting For
     var actingFor1 = String(request.Headers["Acting-For"]);
+    // REST call "rest_url_postfix" get-property('axis2', 'REST_URL_POSTFIX')
+    // denormalize "edu.byu.wso2.apim.extensions.DenormalizePeopleSoftURL"
+
     if ( actingFor1 == "false"){
         log("actingFor == false");
-        // getProperty('usertype') not transport?? Was it supplied with the Acting-For, so there is also a header?
+        // getProperty('usertype') not transport??
         var usertype = 'APPLICATION_USER'; // where does it come from.  !!!!
         if (usertype == 'APPLICATION_USER') {
             request.SetHeaders["sm_user"] = String(request.Headers["Resourceowner_net_id"]);
@@ -63,7 +67,7 @@ addCFrameworkHeader.NewProcessRequest(function(request, session, config) {
         log("ReturnOverrides" + JSON.stringify(request.ReturnOverrides));
     }
 
-    return addCFrameworkHeader.ReturnData(request, {});
+    return peopleSoftAddIP.ReturnData(request, {});
 });
 
 function canUseActorPermissions(){

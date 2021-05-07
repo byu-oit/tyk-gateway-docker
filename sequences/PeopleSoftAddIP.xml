@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="PeopleSoftAddIP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+
     <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
+
     <header action="remove" description="delete sm_user" name="sm_user" scope="transport"/>
     <header action="remove" description="delete principal_net_id" name="principal_net_id" scope="transport"/>
     <header action="remove" description="delete principal_byu_id" name="principal_byu_id" scope="transport"/>
@@ -8,10 +10,13 @@
     <header action="remove" description="delete actor_id" name="actor_id" scope="transport"/>
     <header action="remove" description="delete actor_byu_id" name="actor_byu_id" scope="transport"/>
     <header action="remove" description="delete actor_net_id" name="actor_net_id" scope="transport"/>
+
     <class description="decode JWT Header" name="edu.byu.wso2.apim.extensions.JWTDecoder"/>
+
     <property description="getActorNetId"
               expression="get-property('transport','Acting-For')"
               name="actorNetId" scope="default" type="STRING"/>
+
     <property name="rest_url_postfix" expression="get-property('axis2', 'REST_URL_POSTFIX')"/>
     <class description="denormalize" name="edu.byu.wso2.apim.extensions.DenormalizePeopleSoftURL">
         <property name="PropertyName" value="rest_url_postfix"/>
@@ -109,6 +114,7 @@
                       scope="transport" type="STRING"/>
         </else>
     </filter>
+
     <property description="get X-Forwarded-For"
               expression="get-property('transport','x-forwarded-for')"
               name="xForwardedFor" scope="default" type="STRING"/>
