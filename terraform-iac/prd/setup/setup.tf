@@ -15,6 +15,7 @@ provider "aws" {
 module "setup" {
   source = "../../modules/setup/"
   env    = "prd"
+  tyk_generated_name = "living-permit"
 }
 
 output "hosted_zone_id" {
