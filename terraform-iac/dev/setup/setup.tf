@@ -1,5 +1,4 @@
 terraform {
-  required_version = "0.12.26"
   backend "s3" {
     bucket         = "terraform-state-storage-598052082689"
     dynamodb_table = "terraform-state-lock-598052082689"
@@ -9,7 +8,6 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 3.0"
   region  = "us-west-2"
 }
 
