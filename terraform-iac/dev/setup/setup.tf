@@ -1,4 +1,5 @@
 terraform {
+  required_version = "0.12.26"
   backend "s3" {
     bucket         = "terraform-state-storage-598052082689"
     dynamodb_table = "terraform-state-lock-598052082689"
@@ -8,13 +9,14 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.42"
+  version = "~> 3.0"
   region  = "us-west-2"
 }
 
 module "setup" {
   source = "../../modules/setup/"
   env    = "dev"
+  tyk_generated_name = "respectable-parchment"
 }
 
 output "hosted_zone_id" {
