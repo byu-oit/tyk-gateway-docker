@@ -8,13 +8,17 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region = "us-west-2"
 }
 
 module "setup" {
-  source = "../../modules/setup/"
-  env    = "dev"
-  tyk_generated_name = "respectable-parchment"
+  source        = "../../modules/setup/"
+  env           = "dev"
+  portal_url    = "respectable-parchment-dev.aws-usw2.cloud-ara.tyk.io"
+  dashboard_url = "respectable-parchment-adm.aws-usw2.cloud-ara.tyk.io"
+  west_gw_url   = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
+  east_gw_url   = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
+  provo_gw_url  = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
 }
 
 output "hosted_zone_id" {

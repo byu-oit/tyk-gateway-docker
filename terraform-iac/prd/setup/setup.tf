@@ -8,14 +8,17 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.42"
-  region  = "us-west-2"
+  region = "us-west-2"
 }
 
 module "setup" {
-  source = "../../modules/setup/"
-  env    = "prd"
-  tyk_generated_name = "living-permit"
+  source        = "../../modules/setup/"
+  env           = "prd"
+  portal_url    = "living-permit-dev.aws-usw2.cloud-ara.tyk.io"
+  dashboard_url = "living-permit-adm.aws-usw2.cloud-ara.tyk.io"
+  west_gw_url   = "low-cymbals-gw.aws-usw2.cloud-ara.tyk.io"
+  east_gw_url   = "low-cymbals-gw.aws-usw2.cloud-ara.tyk.io"
+  provo_gw_url  = "low-cymbals-gw.aws-usw2.cloud-ara.tyk.io"
 }
 
 output "hosted_zone_id" {
