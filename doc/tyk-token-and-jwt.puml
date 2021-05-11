@@ -2,7 +2,6 @@
 
 participant Client as client
 participant Gateway as gw
-participant "Tyk Dashboard" as tyk
 participant Hydra as hydra
 participant "Persons Cache" as persons
 participant "JWT Cache" as jwt
@@ -13,7 +12,6 @@ group "Token creation"
     client -> gw : create_token(auth_code)
     gw -> hydra : create_token(auth_code)
     hydra --> gw : tokens(access, id, refresh)
-    gw -> tyk : register(token, security_policy)
     gw --> client : token
 end
 
@@ -24,6 +22,10 @@ group "API Call"
     alt "no JWT, need to create and store it"
         gw -> hydra : introspect(token)
         hydra --> gw : claims(ro:byu_id, client:client_id)
+        alt "4xx (Hydra didn't find the token)"
+            gw --> client : 401
+            note right: Done
+        end
         gw -> persons : get_person(byu_id)
         persons --> gw : person_data
         gw -> persons : get_person(client_id)
@@ -38,7 +40,6 @@ end
 
 group "Revoke Token"
     client -> gw : revoke(token)
-    gw -> tyk : revoke(token)
     gw -> jwt : delete(token)
     gw -> hydra : revoke(token)
     hydra --> gw : 200

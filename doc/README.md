@@ -35,4 +35,6 @@ Almost all APIs will accept a JWT that contains the claims listed at [https://de
 
 A couple of our API platforms are not able to consume JWTs (notably, PeopleSoft and C-Framework). Rather, these platforms accept identity data via an HTTP header. Currently, these platforms are secured at the network layer (i.e. gateways are inside the same trusted zone as the platform servers). **TODO: Figure out how to securely allow these platform servers to trust traffic from gateways managed by Tyk**
 
-Ory Hydra (fronted by Ory Oathkeeper) will be used for OAuth. The gateways will proxy these requests, allowing the tokens to be captured and synchronized with Tyk.
+Ory Hydra (fronted by Ory Oathkeeper) will be used for OAuth. The gateways will proxy these requests, allowing the token revocation process to be hooked, so that JWTs can be invalidated.
+
+APIs registered in Tyk will not use Token Authentication. Rather, they will use a custom plugin authentication that follows the flow of the diagram above. This eliminates the need to synchronize access tokens with Tyk.
