@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 0.13"
   backend "s3" {
     bucket         = "terraform-state-storage-598052082689"
     dynamodb_table = "terraform-state-lock-598052082689"
