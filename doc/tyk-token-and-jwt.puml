@@ -17,24 +17,29 @@ end
 
 group "API Call"
     client -> gw : api_call(token)
-    gw -> jwt : get_JWT(token)
-    jwt --> gw : JWT
-    alt "no JWT, need to create and store it"
-        gw -> hydra : introspect(token)
-        hydra --> gw : claims(ro:byu_id, client:client_id)
-        alt "4xx (Hydra didn't find the token)"
-            gw --> client : 401
-            note right: Done
+    group "PreHook"
+        gw -> jwt : get_JWT(token)
+        jwt --> gw : JWT
+        alt "no JWT, need to create and store it"
+            gw -> hydra : introspect(token)
+            hydra --> gw : claims(ro:byu_id, client:client_id)
+            alt "4xx (Hydra didn't find the token)"
+                gw --> client : 401
+                note right: Done
+            end
+            gw -> persons : get_person(byu_id)
+            persons --> gw : person_data
+            gw -> persons : get_person(client_id)
+            persons --> gw : person_data
+            gw -> gw : construct_jwt(person_data)
+            gw -> jwt : put_jwt(token, JWT, 15 min ttl)
         end
-        gw -> persons : get_person(byu_id)
-        persons --> gw : person_data
-        gw -> persons : get_person(client_id)
-        persons --> gw : person_data
-        gw -> gw : construct_jwt(person_data)
-        gw -> jwt : put_jwt(token, JWT, 15 min ttl)
+        gw -> gw : tag_headers(client_id)
     end
-    gw -> api : api_call(JWT)
-    api --> gw : Some API Response
+    group "invoke upstream"
+        gw -> api : api_call(analytics headers, JWT)
+        api --> gw : Some API Response
+    end
     gw --> client : Some API Response
 end
 
