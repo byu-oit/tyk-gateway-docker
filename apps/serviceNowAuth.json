@@ -1,0 +1,34 @@
+{
+    "name": "ServiceNow Header Test",
+    "api_id": "105",
+    "org_id": "default",
+    "definition": {
+      "location": "header",
+      "key": "version"
+    },
+    "use_keyless": true,
+    "version_data": {
+      "not_versioned": true,
+      "versions": {
+        "Default": {
+          "name": "Default"
+        }
+      }
+    },
+    "custom_middleware": {
+      "post": [
+        {
+          "name": "serviceNowAuth",
+          "path": "./middleware/serviceNowAuth.js",
+          "require_session": false,
+          "raw_body_only": false
+        }
+      ]
+    },
+    "driver": "otto",
+    "proxy": {
+      "listen_path": "/servicenow-test/",
+      "target_url": "http://httpbin.org",
+      "strip_listen_path": true
+    }
+  }

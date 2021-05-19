@@ -16,14 +16,29 @@
     }
   },
   "custom_middleware": {
-    "post": [
+    "pre": [
+      {
+        "name": "logHeaders",
+        "path": "./middleware/logHeaders.js",
+        "require_session": false,
+        "raw_body_only": false
+      },
       {
         "name": "boomiAuth",
         "path": "./middleware/boomiAuth.js",
         "require_session": false,
         "raw_body_only": false
       }
+    ],
+    "post": [
+      {
+        "name": "logHeaders",
+        "path": "./middleware/logHeaders.js",
+        "require_session": false,
+        "raw_body_only": false
+      }
     ]
+
   },
   "driver": "otto",
   "proxy": {
