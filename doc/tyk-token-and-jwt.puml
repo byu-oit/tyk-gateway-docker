@@ -17,7 +17,7 @@ end
 
 group "API Call"
     client -> gw : api_call(token)
-    group "PreHook"
+    group "AuthCheck"
         gw -> jwt : get_JWT(token)
         jwt --> gw : JWT
         alt "no JWT, need to create and store it"
