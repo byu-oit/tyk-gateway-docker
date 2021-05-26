@@ -1,0 +1,51 @@
+{
+  "name": "Tyk Test Echo-West Keyless API",
+  "api_id": "111",
+  "org_id": "default",
+  "definition": {
+    "location": "header",
+    "key": "version"
+  },
+  "use_keyless": true,
+  "version_data": {
+    "not_versioned": true,
+    "versions": {
+      "Default": {
+        "name": "Default"
+      }
+    }
+  },
+  "custom_middleware": {
+    "pre": [
+      {
+        "name": "MyPreMiddleware",
+        "require_session": false
+      },
+      {
+        "name": "AnotherPreMiddleware",
+        "require_session": false
+      }
+    ],
+    "post": [
+      {
+        "name": "MyPostMiddleware",
+        "require_session": false
+      }
+    ],
+    "post_key_auth": [
+      {
+        "name": "MyPostKeyAuthMiddleware",
+        "require_session": true
+      }
+    ],
+    "auth_check": {
+      "name": "MyAuthCheck"
+    },
+    "driver": "python"
+  },
+  "proxy": {
+    "listen_path": "/keyless-echo-test/",
+    "target_url": "http://httpbin.org",
+    "strip_listen_path": true
+  }
+}

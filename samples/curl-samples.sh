@@ -367,3 +367,94 @@ curl -X POST -H "x-tyk-authorization: Zls7rrBtx7hwDfk2G6rSJUskBZc31D8I" \
 # HOT Reload CRITICAL
 curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
 curl -H "Authorization: 118f80271e85d4dd6921bed9f57b9094a" -s http://localhost:8080/echo-josh/ | python -mjson.tool
+
+# May 2021: hot reload Docker
+ curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
+{
+    "message": "",
+    "status": "ok"
+}
+
+# Create API key for echo west and JSVM
+curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
+  -s \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "allowance": 1000,
+    "rate": 1000,
+    "per": 1,
+    "expires": -1,
+    "quota_max": -1,
+    "org_id": "1",
+    "quota_renews": 1449051461,
+    "quota_remaining": -1,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "97": {
+        "api_id": "97",
+        "api_name": "Echo West",
+        "versions": ["Default"]
+      }
+    },
+    "meta_data": {"ClientID":""}
+  }' http://localhost:8080/tyk/keys/create | python -mjson.tool
+  #-------------
+  # Result
+  {
+    "action": "added",
+    "key": "18f656ee5e3d242ac950e4891f90a0010",
+    "key_hash": "5b8c8164",
+    "status": "ok"
+}
+
+#----------------------------
+# Hot Reload current setup
+curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
+
+
+curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/keys | python -mjson.tool
+
+
+curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
+  -s \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "allowance": 1000,
+    "rate": 1000,
+    "per": 1,
+    "expires": -1,
+    "quota_max": -1,
+    "org_id": "1",
+    "quota_renews": 1449051461,
+    "quota_remaining": -1,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "197": {
+        "api_id": "197",
+        "api_name": "Echo West Python",
+        "versions": ["Default"]
+      }
+    },
+    "meta_data": {}
+  }' http://localhost:8080/tyk/keys/create | python -mjson.tool
+
+  #result
+  {
+    "action": "added",
+    "key": "1cffe9aca5e0b4ef0be43980285c508eb",
+    "key_hash": "4bae0084",
+    "status": "ok"
+  }
+
+# ---- Reboot loses keys
+{
+    "action": "added",
+    "key": "155c07a6f1fae433a8240bdafc767e77e",
+    "key_hash": "3a0a6c59",
+    "status": "ok"
+}
+
+curl -X -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" http://localhost:8080/tyk/keys | python -mjson.tool
+

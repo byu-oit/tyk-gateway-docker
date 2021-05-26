@@ -1,10 +1,10 @@
 {
-  "name": "Echo West",
-  "slug": "echo-west",
+  "name": "Echo West Python",
+  "slug": "echo-west-py",
   "listen_port": 0,
   "protocol": "",
   "enable_proxy_protocol": false,
-  "api_id": "97",
+  "api_id": "197",
   "org_id": "default",
   "use_keyless": false,
   "use_oauth2": false,
@@ -119,7 +119,7 @@
   },
   "proxy": {
     "preserve_host_header": false,
-    "listen_path": "/echo-west/",
+    "listen_path": "/echo-west-py/",
     "target_url": "https://echo-west.byu-oit-apimanager-dev.amazon.byu.edu/v1/echo/",
     "disable_strip_slash": false,
     "strip_listen_path": true,
@@ -152,10 +152,8 @@
     "pre": null,
     "post": [
       {
-        "name": "addMetadataClientID",
-        "path": "./middleware/addMetadataClientID.js",
-        "require_session": true,
-        "raw_body_only": false
+        "name": "MyPostMiddleware",
+        "require_session": false
       }
     ],
     "post_key_auth": null,
@@ -166,14 +164,14 @@
       "raw_body_only": false
     },
     "response": null,
-    "driver": "otto",
+    "driver": "python",
     "id_extractor": {
       "extract_from": "",
       "extract_with": "",
       "extractor_config": null
     }
   },
-  "custom_middleware_bundle": "",
+  "custom_middleware_bundle": "bundle.zip",
   "cache_options": {
     "cache_timeout": 0,
     "enable_cache": false,
