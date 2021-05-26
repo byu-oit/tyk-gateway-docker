@@ -441,20 +441,15 @@ curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
   }' http://localhost:8080/tyk/keys/create | python -mjson.tool
 
   #result
-  {
-    "action": "added",
-    "key": "1cffe9aca5e0b4ef0be43980285c508eb",
-    "key_hash": "4bae0084",
-    "status": "ok"
-  }
-
-# ---- Reboot loses keys
 {
     "action": "added",
-    "key": "155c07a6f1fae433a8240bdafc767e77e",
-    "key_hash": "3a0a6c59",
+    "key": "19cdb7bd93e8849f1b3260ce7741c0e13",
+    "key_hash": "4a90e05d",
     "status": "ok"
 }
+
+# ---- Reboot loses keys
+
 
 curl -X -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" http://localhost:8080/tyk/keys | python -mjson.tool
 
