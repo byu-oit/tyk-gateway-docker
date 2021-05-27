@@ -4,8 +4,10 @@
   ],
   "custom_middleware": {
     "driver": "python",
-    "post": {
+    "post": [
+      {
       "name": "MyPostMiddleware"
-    }
+      }
+    ]
   }
 }
