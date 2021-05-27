@@ -48,4 +48,5 @@ When the Tyk Gateway starts up it will look for the bundle.zip in the location s
 When you go back to the project there will be new files in the project:
 * ![files output](./imgs/bundle-files.png)
 
-These files will need to be deleted if you need to make changes and re-build the bundles.
+These files will need to be deleted if you need to make changes and re-build the bundles,
+I usually turn off the Tyk Docker Container first, re-run the bundle and start up the Tyk again.

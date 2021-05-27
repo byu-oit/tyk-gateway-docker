@@ -1,5 +1,6 @@
 from tyk.decorators import *
 from gateway import TykGateway as tyk
+imort request
 
 @Hook
 def MyPostMiddleware(request, session, metadata, spec):
@@ -11,5 +12,10 @@ def MyPostMiddleware(request, session, metadata, spec):
         session.rate = 1000.0
         session.per = 1.0
         metadata["token"] = "47a0c79c427728b3df4af62b9228c8ae"
-        request.header["Client-Id"] = "dwclogic"
+        request.add_header("Client-Id","dwclogic")
+        request.headers["Client-Id"] = "bl645"
     return request, session, metadata
+
+def getTokenIntrospection():
+
+    return
