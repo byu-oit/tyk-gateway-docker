@@ -4,7 +4,7 @@ tyk.compose.conf
 # Sedki
 bundle.zip
 ./middleware/bundles/*
-
+./middleware/*.zip
 #JetBrains
 .idea/*
 
