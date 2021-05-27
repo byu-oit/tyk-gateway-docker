@@ -2,7 +2,7 @@ from tyk.decorators import *
 from gateway import TykGateway as tyk
 
 @Hook
-def MyAuthMiddleware(request, session, metadata, spec):
+def MyPostMiddleware(request, session, metadata, spec):
     loglevel = "info"
     auth_header = request.get_header('Authorization')
     tyk.log("MyAuthMiddleware START", loglevel)
