@@ -1,0 +1,14 @@
+# default builder
+docker run \
+  --rm -w "/tmp" -v $(pwd):/tmp \
+    --entrypoint "/bin/sh" -it \
+      tykio/tyk-gateway:v3.1.2 \
+    -c '/opt/tyk-gateway/tyk bundle build -y -m token.json -o token.zip'
+
+# modified for specific file names pattern.
+
+docker run \
+  --rm -w "/tmp" -v $(pwd):/tmp \
+    --entrypoint "/bin/sh" -it \
+      tykio/tyk-gateway:v3.1.2 \
+    -c '/opt/tyk-gateway/tyk bundle build -y -m token.json -o token.zip'

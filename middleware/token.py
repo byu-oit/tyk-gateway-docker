@@ -1,6 +1,7 @@
-from tyk.decorators import *
+
 from gateway import TykGateway as tyk
-import requests, json
+from tyk.decorators import *
+#import requests, json
 
 @Hook
 def TokenResponseMiddleware(request, response, session, metadata, spec):
