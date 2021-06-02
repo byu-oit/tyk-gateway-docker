@@ -4,9 +4,9 @@
   "listen_port": 0,
   "protocol": "",
   "enable_proxy_protocol": false,
-  "api_id": "1000",
+  "api_id": "1001",
   "org_id": "default",
-  "use_keyless": false,
+  "use_keyless": true,
   "use_oauth2": false,
   "use_openid": false,
   "openid_options": {
@@ -17,13 +17,6 @@
     "allowed_access_types": null,
     "allowed_authorize_types": null,
     "auth_login_redirect": ""
-  },
-  "auth": {
-    "auth_header_name": "Authorization",
-    "use_param": false,
-    "param_name": "",
-    "use_cookie": false,
-    "cookie_name": ""
   },
   "auth_configs": null,
   "use_basic_auth": false,
@@ -120,7 +113,7 @@
   "proxy": {
     "preserve_host_header": false,
     "listen_path": "/token/",
-    "target_url": "https://oauth.api-dev.byu.edu/oauth2/token",
+    "target_url": "https://oauth.api-dev.byu.edu/oauth2/token/",
     "disable_strip_slash": false,
     "strip_listen_path": true,
     "enable_load_balancing": false,
@@ -149,13 +142,6 @@
   "disable_rate_limit": false,
   "disable_quota": false,
   "custom_middleware": {
-    "pre": null,
-    "post": [
-      {
-        "name": "MyPostMiddleware",
-        "require_session": false
-      }
-    ],
     "post_key_auth": null,
     "auth_check": {
       "name": "",
@@ -165,7 +151,7 @@
     },
     "response": [
       {
-        "name": "ResponseHook",
+        "name": "TokenResponseMiddleware",
         "path": "middleware/token.py"
       }
     ],
@@ -176,7 +162,7 @@
       "extractor_config": null
     }
   },
-  "custom_middleware_bundle": "bundle.zip",
+  "custom_middleware_bundle": "token.zip",
   "cache_options": {
     "cache_timeout": 0,
     "enable_cache": false,
