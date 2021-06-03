@@ -11,4 +11,4 @@ def MyPreMiddleware(request, session, metadata, spec):
         tyk.log("### Authorization = " + auth_header, loglevel)
     tyk.log("### MyPreMiddleware END", loglevel)
 
-  return request, session, metadata
+    return request, session, metadata
