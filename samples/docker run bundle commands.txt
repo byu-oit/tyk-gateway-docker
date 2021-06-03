@@ -6,7 +6,6 @@ docker run \
   -c '/opt/tyk-gateway/tyk bundle build -y'
 
 # modified for specific file names pattern.
-
 docker run \
   --rm -w "/tmp" -v $(pwd):/tmp \
     --entrypoint "/bin/sh" -it \
