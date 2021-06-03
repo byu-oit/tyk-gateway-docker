@@ -3,11 +3,11 @@
     "middleware.py"
   ],
   "custom_middleware": {
-    "driver": "python",
-    "post": [
+    "pre": [
       {
-      "name": "MyPostMiddleware"
+        "name": "MyPreMiddleware"
       }
-    ]
+    ],
+    "driver": "python"
   }
 }

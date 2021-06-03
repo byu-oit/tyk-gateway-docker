@@ -2,15 +2,13 @@ from tyk.decorators import *
 from gateway import TykGateway as tyk
 
 @Hook
-def MyPostMiddleware(request, session, metadata, spec):
+def MyPreMiddleware(request, session, metadata, spec):
     loglevel = "info"
+    tyk.log("### MyPreMiddleware START", loglevel)
+
     auth_header = request.get_header('Authorization')
-    tyk.log("MyAuthMiddleware START", loglevel)
-    if auth_header == 'Bearer 19cdb7bd93e8849f1b3260ce7741c0e13':
-        tyk.log("if auth_header == true: START", loglevel)
-        session.rate = 1000.0
-        session.per = 1.0
-        metadata["token"] = "47a0c79c427728b3df4af62b9228c8ae"
-        request.add_header("Client-Id","dwclogic")
-        request.headers["Client-Id"] = "bl645"
-    return request, session, metadata
+    if auth_header:
+        tyk.log("### Authorization = " + auth_header, loglevel)
+    tyk.log("### MyPreMiddleware END", loglevel)
+
+  return request, session, metadata

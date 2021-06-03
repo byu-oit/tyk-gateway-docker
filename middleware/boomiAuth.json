@@ -1,0 +1,18 @@
+{
+    "file_list": [
+        "boomiAuth.py"
+    ],
+    "custom_middleware": {
+      "driver": "python",
+      "pre": [
+        {
+            "name": "MyPreMiddleware"
+        }
+        ],
+        "post": [
+        {
+            "name": "BoomiAuthMiddleware"
+        }
+      ]
+    }
+  }
