@@ -484,3 +484,15 @@ curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
     "key_hash": "1ab3e40a",
     "status": "ok"
 }
+
+# Introspection Body
+{
+    "active": true,
+    "scope": "openid hydra-clients token-introspection offline_access",
+    "client_id": "test",
+    "sub": "test",
+    "exp": 1622755268,
+    "iat": 1622751667,
+    "iss": "https://oauth.api-dev.byu.edu/",
+    "token_type": "access_token"
+}
