@@ -1,11 +1,22 @@
 from tyk.decorators import *
 from gateway import TykGateway as tyk
-# import middleware
+# from util import MyUtilFunction
+# from util import log
+# import json, requests
+
+# import os
+# import sys
+# bundle_dir = os.path.abspath(os.path.dirname(__file__))
+# for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
+#   vendor_dir = os.path.join(bundle_dir, lib_dir)
+#   sys.path.append(vendor_dir)
 
 @Hook
 def MyPreMiddleware(request, session, metadata, spec):
     loglevel = "info"
     tyk.log("MyPreMiddleware START", loglevel)
+
+    # MyUtilFunction(request, session, metadata, spec)
 
     auth_header = request.get_header('Authorization')
     if auth_header:
