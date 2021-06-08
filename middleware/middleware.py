@@ -77,7 +77,7 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
 
     signature = instance.encode(messageObj, signing_key, alg='RS256')
     tyk.log(str("Signature: " + signature), logLevel)
-    new_jwt = jotHdr64 + b"." + mStr64 + b"." + signature
+    new_jwt = str(jotHdr64) + "." + str(mStr64) + "." + signature
     tyk.log("jwt: " + str(signature), logLevel)
 #   Store JWT under the access_token ---------------------------------------------------------
     tyk.store_data(access_token, new_jwt, expires_in)
