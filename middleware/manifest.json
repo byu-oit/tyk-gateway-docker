@@ -3,11 +3,12 @@
     "middleware.py"
   ],
   "custom_middleware": {
-    "pre": [
+    "driver": "python",
+    "response": [
       {
-        "name": "MyPreMiddleware"
+        "name": "TokenResponseMiddleware",
+        "path": "middleware/middleware.py"
       }
-    ],
-    "driver": "python"
+    ]
   }
 }

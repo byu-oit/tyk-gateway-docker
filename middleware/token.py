@@ -2,8 +2,8 @@
 from gateway import TykGateway as tyk
 from tyk.decorators import *
 
-import os
-import sys
+#import os
+#import sys
 # bundle_dir = os.path.abspath(os.path.dirname(__file__))
 # for lib_dir in [ 'vendor/lib/python3.6/site-packages/', 'vendor/lib64/python3.6/site-packages/' ]:
 #   vendor_dir = os.path.join(bundle_dir, lib_dir)
