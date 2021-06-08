@@ -5,6 +5,7 @@ tyk.compose.conf
 bundle.zip
 ./middleware/bundles/*
 ./middleware/*.zip
+./middleware/jwtRS256.*
 
 #JetBrains
 .idea/*
