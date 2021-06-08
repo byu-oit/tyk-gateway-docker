@@ -37,48 +37,49 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
 #     tyk.log(access_token_response.text, logLevel)
     iData = json.loads(access_token_response.text)
     tyk.log(str(iData), logLevel)
-    client_id = iData["client_id"]
+#     client_id = iData["client_id"]
 #     tyk.log("|--- client_id = " +  str(client_id), logLevel)
-    sub = iData["sub"]
+#     sub = iData["sub"]
 #     tyk.log("|--- sub = " +  str(sub), logLevel)
-    active = iData["active"]
+#     active = iData["active"]
 #     tyk.log("|--- active = " +  str(active), logLevel)
-    token_type = iData["token_type"]
+#     token_type = iData["token_type"]
 #     tyk.log("|--- token_type = " +  str(token_type), logLevel)
-    iat = iData["iat"]
+#     iat = iData["iat"]
 #     tyk.log("|--- iat = " +  str(iat), logLevel)
-    exp = iData["exp"]
+#     exp = iData["exp"]
 #     tyk.log("|--- exp = " +  str(exp), logLevel)
 
 #   Generate JWT HERE or on first use of Token -----------------------------------------------
 
-    jotHdrStr = '{"alg": "RS256","typ": "JWT"}'
-    jotHdr64 = jotHdrStr.encode("utf-8")
-    tyk.log("jotHdrStr: " + jotHdrStr, logLevel)
-    messageObj = {
-        'iss': 'https://api-dev.byu.edu',
-        'client_id': client_id,
-        'sub': sub,
-        'iat': iat,
-        'exp': exp,
-        'token_type': token_type,
-        'active': active
-    }
-    mStr = json.dumps(messageObj)
-#   Unsigned version of the sample jwt only base64encoded.
+#     jotHdrStr = '{"alg": "RS256","typ": "JWT"}'
+#     jotHdr64 = jotHdrStr.encode("utf-8")
+#     tyk.log("jotHdrStr: " + jotHdrStr, logLevel)
+#     messageObj = {
+#         'iss': 'https://api-dev.byu.edu',
+#         'client_id': client_id,
+#         'sub': sub,
+#         'iat': iat,
+#         'exp': exp,
+#         'token_type': token_type,
+#         'active': active
+#     }
+#     mStr = json.dumps(messageObj)
+# #   Unsigned version of the sample jwt only base64encoded.
+#
+#     mStr64 = base64.b64encode(mStr.encode("utf-8"))
+#     tyk.log("base64 mStr64: " + str(mStr64), logLevel)
 
-    mStr64 = base64.b64encode(mStr.encode("utf-8"))
-    tyk.log("base64 mStr64: " + str(mStr64), logLevel)
-    message = jotHdrStr + "." + mStr
 #   jwt signing
-    instance = jwt.JWT()
+#     instance = jwt.JWT()
     with open('/opt/tyk-gateway/middleware/jwtRS256.key', 'rb') as fh:
         signing_key = jwt.jwk_from_pem(fh.read())
 
-    signature = instance.encode(messageObj, signing_key, alg='RS256')
-    tyk.log(str("Signature: " + signature), logLevel)
-    new_jwt = str(jotHdr64) + "." + str(mStr64) + "." + signature
-    tyk.log("jwt: " + str(signature), logLevel)
+    new_jwt = jwt.JWT().encode(iData, signing_key, alg='RS256')
+#     tyk.log(str("Signature: " + new_jwt), logLevel)
+
+#     new_jwt = str(jotHdr64) + "." + str(mStr64) + "." + signature
+    tyk.log("new_jwt: " + str(new_jwt), logLevel)
 #   Store JWT under the access_token ---------------------------------------------------------
     tyk.store_data(access_token, new_jwt, expires_in)
 
@@ -87,4 +88,3 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
 
     tyk.log("TokenResponseMiddleware END |---", logLevel)
     return request, response, session, metadata, spec
-
