@@ -1,0 +1,14 @@
+{
+  "file_list": [
+    "api-custom-auth.py"
+  ],
+  "custom_middleware": {
+    "driver": "python",
+    "auth_check": {
+      "name": "APICustomAuth",
+      "path": "./middleware/api-custom-auth.py",
+      "require_session": false,
+      "raw_body_only": false
+    }
+  }
+}
