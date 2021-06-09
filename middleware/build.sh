@@ -1,7 +1,6 @@
 #!/bin/bash
 
 dir="$(pwd)"
-# for bundle in boomiAuth serviceNowAuth
 for bundle in boomiAuth serviceNowAuth
 do
   /bin/rm -f ${bundle}.zip

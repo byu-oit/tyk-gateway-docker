@@ -23,11 +23,6 @@
 							"",
 							"const jsonData = pm.response.json();",
 							"",
-							"// check the response for X-Wss-Jwt-Assertion",
-							"pm.test(\"New header included in response body\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"X-Wss-Jwt-Assertion\");",
-							"});",
-							"",
 							"// check that the property header exists",
 							"pm.test('Check for headers', function() {",
 							"  pm.expect(jsonData).to.have.property('headers');",
@@ -40,11 +35,10 @@
 							"   pm.expect(h).to.have.property(\"X-Wss-Jwt-Assertion\");",
 							"});",
 							"",
-							"// check for the header X-Wss-Jwt-Assertion",
+							"// check for the header X-Jwt-Assertion",
 							"pm.test(\"Check body does not have response header X-JWT-Assertion\", () => {",
 							"    let h = jsonData[\"headers\"];",
-							"",
-							"   pm.expect(h).to.not.have.property(\"X-JWT-Assertion\");",
+							"    pm.expect(h).to.not.have.key(\"X-Jwt-Assertion\");",
 							"});",
 							"",
 							"",
@@ -86,6 +80,65 @@
 					"port": "8080",
 					"path": [
 						"boomi-test",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ServiceNowAuth Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Status Code Check",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"// check that the property header exists",
+							"pm.test('Check for headers', function() {",
+							"  pm.expect(jsonData).to.have.property('headers');",
+							"});",
+							"",
+							"// check for the header Authorization",
+							"pm.test(\"Check for Authorization header in response body\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Authorization\");",
+							"});",
+							"",
+							"// check for the header X-Jwt-Assertion",
+							"pm.test(\"Check body does not have response header X-Jwt-Assertion\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.headers).to.not.have.key('X-Jwt-Assertion');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-JWT-Assertion",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/servicenow-test/get",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"servicenow-test",
 						"get"
 					]
 				}
