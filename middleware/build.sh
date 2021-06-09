@@ -1,14 +1,24 @@
 #!/bin/bash
 
-#cd /opt/tyk-gateway/middleware
-rm -rf /opt/tyk-gateway/middleware/bundles
-for bundle in token
+dir="$(pwd)"
+# for bundle in boomiAuth serviceNowAuth
+for bundle in boomiAuth serviceNowAuth
 do
-  rm -f ${bundle}.zip
-  /opt/tyk-gateway/tyk bundle build -m ${bundle}.json -y -o ${bundle}.zip
+  /bin/rm -f ${bundle}.zip
+  cd ${bundle}
+  # echo $(pwd)
+
+  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "/opt/tyk-gateway/tyk bundle build -y -m ${bundle}.json -o ${bundle}.zip"
+  
+  mv ${bundle}.zip ${dir}
+  rm -rf tyk-middleware-path*
+  cd ..
+  # echo $(pwd)
+
+  # bundle build -m ${bundle}.json -y -o ${bundle}.zip
+
   if [[ ! -f ${bundle}.zip ]]
   then
     echo "[WARN]${bundle}.zip not built!"
   fi
 done
-python3 -m http.server

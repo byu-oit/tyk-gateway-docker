@@ -16,12 +16,6 @@
     }
   },
   "custom_middleware": {
-    "pre": [
-      {
-        "name": "MyPreMiddleware",
-        "path": "middleware/boomiAuth.py"
-      }
-    ],
     "post": [
       {
         "name": "BoomiAuthMiddleware",
