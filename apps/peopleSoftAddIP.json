@@ -19,7 +19,7 @@
     "post": [
       {
         "name": "peopleSoftAddIP",
-        "path": "./middleware/peopleSoftAddIP.js",
+        "path": "./middleware/javascript/peopleSoftAddIP.js",
         "require_session": false,
         "raw_body_only": false
       }

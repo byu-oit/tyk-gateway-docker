@@ -19,7 +19,7 @@
     "post": [
       {
         "name": "addPeopleSoftWSSecurityHeader",
-        "path": "./middleware/addPeopleSoftWSSecurityHeader.js",
+        "path": "./middleware/javascript/addPeopleSoftWSSecurityHeader.js",
         "require_session": false,
         "raw_body_only": false
       }

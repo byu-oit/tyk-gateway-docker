@@ -19,7 +19,7 @@
     "post": [
       {
         "name": "byuEntityData",
-        "path": "./middleware/injectByuJwt.js",
+        "path": "./middleware/javascript/injectByuJwt.js",
         "require_session": false,
         "raw_body_only": false
       }

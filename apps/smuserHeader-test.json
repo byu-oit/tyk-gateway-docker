@@ -19,7 +19,7 @@
     "post": [
       {
         "name": "rejectSmUserHeader",
-        "path": "./middleware/rejectSmUserHeader.js",
+        "path": "./middleware/javascript/rejectSmUserHeader.js",
         "require_session": false,
         "raw_body_only": false
       }

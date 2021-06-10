@@ -19,7 +19,7 @@
       "post": [
         {
           "name": "serviceNowAuth",
-          "path": "middleware/serviceNowAuth.py",
+          "path": "middleware/javascript/serviceNowAuth.py",
           "require_session": false,
           "raw_body_only": false
         }

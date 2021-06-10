@@ -11,7 +11,7 @@ def APICustomAuth(request, session, metadata, spec):
 
     auth_token = response.headers['Authorization']
     tyk.log("|--- auth_token=" + auth_token, logLevel)
-    body = json.loads(bodyJsonStr)
+#    body = json.loads(bodyJsonStr)
 #     tyk.log("|--- body=" + str(body), logLevel)
 
 #     access_token = body["access_token"]

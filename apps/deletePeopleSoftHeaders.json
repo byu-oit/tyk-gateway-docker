@@ -1,5 +1,5 @@
 {
-  "name": "add Peoplesoft SW ecurity Header Test API",
+  "name": "add Peoplesoft SW Security Header Test API",
   "api_id": "105",
   "org_id": "default",
   "definition": {
@@ -19,7 +19,7 @@
     "pre": [
       {
         "name": "deletePeopleSoftHeaders",
-        "path": "./middleware/deletePeopleSoftHeaders.js",
+        "path": "./middleware/javascript/deletePeopleSoftHeaders.js",
         "require_session": false,
         "raw_body_only": false
       }
