@@ -12,25 +12,6 @@ docker run \
       tykio/tyk-gateway:v3.1.2 \
     -c '/opt/tyk-gateway/tyk bundle build -y -m token.json -o token.zip'
 
-ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
-openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.pem
-Your identification has been saved in jwtRS256.key.
-Your public key has been saved in jwtRS256.key.pub.
-The key fingerprint is:
-SHA256:IAr3AmurJWfCvJIMJjKmX7gZbFmRWbxuCEMTgtD86cM dcaldwell@SW-iMac
-The key's randomart image is:
-+---[RSA 4096]----+
-|=o.. ..          |
-|..=  +.          |
-|o..o=...         |
-| =oooo..         |
-|..o=oo  S        |
-|O+.=E o          |
-|@*X .o           |
-|=O.=             |
-|oo+              |
-+----[SHA256]-----+
-
 # private key is in pem file already
 # modified for specific file names pattern.
 docker run \

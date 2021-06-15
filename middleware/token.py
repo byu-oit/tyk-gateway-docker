@@ -43,10 +43,10 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
         signing_key = jwt.jwk_from_pem(fh.read())
 
     new_jwt = jwt.JWT().encode(iData, signing_key, alg='RS256')
-#     tyk.log(str("Signature: " + new_jwt), logLevel)
+#     tyk.log(str("new_jwt: " + new_jwt), logLevel)
 
-#     new_jwt = str(jotHdr64) + "." + str(mStr64) + "." + signature
     tyk.log("new_jwt: " + str(new_jwt), logLevel)
+
 #   Store JWT under the access_token ---------------------------------------------------------
     tyk.store_data(access_token, new_jwt, expires_in)
 

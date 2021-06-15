@@ -2,7 +2,7 @@
   "api_id": "api-1002",
   "jwt_issued_at_validation_skew": 0,
   "upstream_certificates": {},
-  "use_keyless": true,
+  "use_keyless": false,
   "enable_coprocess_auth": true,
   "base_identity_provided_by": "",
   "custom_middleware": {
