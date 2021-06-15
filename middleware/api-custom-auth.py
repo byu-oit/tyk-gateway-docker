@@ -28,6 +28,7 @@ def APICustomAuth(request, session, metadata, spec):
     tyk.log("iData: " + str(iData), logLevel)
     if 'error' in iData:
         tyk.log("ERROR FROM HYDRA :----------", logLevel)
+#         tyk.log("request: " + str(request), logLevel
         return request, session, metadata
     else:
         client_id = iData['client_id']
@@ -45,12 +46,13 @@ def APICustomAuth(request, session, metadata, spec):
             verifying_key = jwt.jwk_from_dict(json.load(fh))
 
         tyk.log("verify_key: " + str(verifying_key), logLevel)
-        tyk.log("get decoded JWT: ---------", logLevel)
+#         tyk.log("get decoded JWT: ---------", logLevel)
         cur_jwt = jwt.JWT().decode(token_decoded, verifying_key, do_time_check=True)
         tyk.log("cur_jwt: " + str(cur_jwt), logLevel)
 
     #   Decision section ----------
         metadata["client_id"] = client_id
-        metadata["token"] = token_decoded
+        metadata["token"] = client_id
+#         request.set_header('X-Jwt-Assertion', cur_jwt)
         tyk.log("APICustomAuth END |---", logLevel)
         return request, session, metadata
