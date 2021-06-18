@@ -2,7 +2,7 @@
 from gateway import TykGateway as tyk
 from tyk.decorators import *
 import json, requests, base64
-import jwt
+import jwt, datetime
 
 @Hook
 def TokenResponseMiddleware(request, response, session, metadata, spec):
@@ -37,13 +37,18 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
     iData = json.loads(access_token_response.text)
     tyk.log(str(iData), logLevel)
 
-#   Generate JWT HERE or on first use of Token -----------------------------------------------
+#     Now make the JWT expire in 15 minutes
+    nowInt = datetime.datetime.utcnow() + datetime.timedelta(seconds=900)
+    expire_at = int(nowInt.timestamp())
+    iData['exp'] = expire_at
+    tyk.log(str(iData), logLevel)
 
+#   Generate JWT HERE or on first use of Token -----------------------------------------------
     with open('/opt/tyk-gateway/middleware/jwtRS256.key', 'rb') as fh:
         signing_key = jwt.jwk_from_pem(fh.read())
 
     new_jwt = jwt.JWT().encode(iData, signing_key, alg='RS256')
-#     tyk.log(str("new_jwt: " + new_jwt), logLevel)
+#     tyk.log("new_jwt: " + str(new_jwt), logLevel)
 
     tyk.log("new_jwt: " + str(new_jwt), logLevel)
 
