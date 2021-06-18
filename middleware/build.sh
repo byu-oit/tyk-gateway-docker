@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dir="$(pwd)"
-for bundle in boomiAuth serviceNowAuth
+for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
 do
   /bin/rm -f ${bundle}.zip
   cd ${bundle}
