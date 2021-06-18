@@ -1,13 +1,13 @@
 {
   "file_list": [
-    "token.py"
+    "byu-token.py"
   ],
   "custom_middleware": {
     "driver": "python",
     "response": [
       {
         "name": "TokenResponseMiddleware",
-        "path": "middleware/token.py"
+        "path": "middleware/byu-token.py"
       }
     ]
   }

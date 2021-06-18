@@ -15,11 +15,20 @@
           "versions": [
             "Default"
           ]
+        },
+        "api-1002": {
+          "allowed_urls": [],
+          "api_id": "api-1002",
+          "api_name": "Echo-West Custom Auth",
+          "versions": [
+            "Default"
+          ]
         }
-    }
+      }
   },
+  "id": "5ecc0b91081ac40001ed261c",
   "active": true,
-  "name": "POLICY DAVE",
+  "name": "POLICY ALL",
   "rate": 100,
   "per": 1,
   "quota_max": 10000,

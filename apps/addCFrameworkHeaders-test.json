@@ -19,7 +19,7 @@
     "post": [
       {
         "name": "addCFrameworkHeader",
-        "path": "./middleware/addCFrameworkHeader.js",
+        "path": "./middleware/javascript/addCFrameworkHeader.js",
         "require_session": false,
         "raw_body_only": false
       }

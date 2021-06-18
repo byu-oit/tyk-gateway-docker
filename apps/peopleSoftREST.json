@@ -19,7 +19,7 @@
       "post": [
         {
           "name": "peopleSoftREST",
-          "path": "./middleware/peopleSoftREST.js",
+          "path": "./middleware/javascript/peopleSoftREST.js",
           "require_session": false,
           "raw_body_only": false
         }

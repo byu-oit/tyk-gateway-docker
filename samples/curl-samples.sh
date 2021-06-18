@@ -496,3 +496,6 @@ curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
     "iss": "https://oauth.api-dev.byu.edu/",
     "token_type": "access_token"
 }
+
+# Adding token for policy
+
