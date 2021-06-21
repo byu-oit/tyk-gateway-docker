@@ -152,7 +152,7 @@
     "response": [
       {
         "name": "TokenResponseMiddleware",
-        "path": "middleware/byu-token.py"
+        "path": "middleware/middleware.py"
       }
     ],
     "driver": "python",
@@ -162,7 +162,7 @@
       "extractor_config": null
     }
   },
-  "custom_middleware_bundle": "byu-token.zip",
+  "custom_middleware_bundle": "bundle.zip",
   "cache_options": {
     "cache_timeout": 0,
     "enable_cache": false,

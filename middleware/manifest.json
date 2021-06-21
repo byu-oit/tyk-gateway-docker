@@ -1,9 +1,17 @@
 {
   "file_list": [
-    "middleware.py"
+    "middleware.py",
+    "jwtRS256.pub.jwk",
+    "jwtRS256.key"
   ],
   "custom_middleware": {
     "driver": "python",
+    "auth_check": {
+      "name": "APICustomAuth",
+      "path": "./middleware/middleware.py",
+      "require_session": false,
+      "raw_body_only": false
+    },
     "response": [
       {
         "name": "TokenResponseMiddleware",

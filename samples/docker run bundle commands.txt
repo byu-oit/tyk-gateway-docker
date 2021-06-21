@@ -20,3 +20,9 @@ docker run \
       tykio/tyk-gateway:v3.1.2 \
     -c '/opt/tyk-gateway/tyk bundle build -y -m api-custom-auth.json -o api-custom-auth.zip'
 
+
+
+
+
+# upload to the Cloud
+./mservctl.macos.amd64 --config python.mservctl.yaml push bundle.zip

@@ -11,7 +11,7 @@
     "post_key_auth": [],
     "auth_check": {
       "name": "APICustomAuth",
-      "path": "./middleware/api-custom-auth.py",
+      "path": "./middleware/middleware.py",
       "require_session": false,
       "raw_body_only": false
     },
@@ -24,7 +24,7 @@
     }
   },
   "disable_quota": false,
-  "custom_middleware_bundle": "api-custom-auth.zip",
+  "custom_middleware_bundle": "bundle.zip",
   "cache_options": {
     "cache_timeout": 60,
     "enable_cache": true,

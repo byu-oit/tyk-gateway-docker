@@ -1,13 +1,14 @@
 #!/bin/bash
 
 dir="$(pwd)"
-for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
+#for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
+for bundle in bundle
 do
   /bin/rm -f ${bundle}.zip
-  cd ${bundle}
+  # cd ${bundle}
   # echo $(pwd)
 
-  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "/opt/tyk-gateway/tyk bundle build -y -m ${bundle}.json -o ${bundle}.zip"
+  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "/opt/tyk-gateway/tyk bundle build -y -m manifest.json -o ${bundle}.zip"
   
   mv ${bundle}.zip ${dir}
   rm -rf tyk-middleware-path*

@@ -1,20 +1,18 @@
 
 from gateway import TykGateway as tyk
 from tyk.decorators import *
-import json, requests, base64
-import jwt
-import datetime
+import json, requests, base64, jwt, datetime
+
+logLevel = "info"
 
 # Function for APIs usoing the Hydra tokens:
 # Still to do: ------------------------------------------------------------------------------
-#   1. test valid AccessToken but with invalid JWT and re-create with new timestamp 15 minutes
-#   2. put URLs in the config_data of api json and use instead.logLevel
+#   2. put URLs in the config_data of api json and use instead.
 #   3. put private keys for signing into global code, pull from disk first keep in mem using Singleton pattern
 #   4. upload to cloud, add package files to bundle in build.sh like Peter
 #--------------------------------------------------------------------------------------------
 @Hook
 def APICustomAuth(request, session, metadata, spec):
-    logLevel = "info"
     tyk.log("APICustomAuth Begin |---", logLevel)
 
     auth_token = request.get_header('Authorization')
@@ -97,3 +95,4 @@ def APICustomAuth(request, session, metadata, spec):
         request.add_header('X-Jwt-Assertion', token_decoded)
         tyk.log("APICustomAuth END |---", logLevel)
         return request, session, metadata
+
