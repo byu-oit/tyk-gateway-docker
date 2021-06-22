@@ -1,9 +1,17 @@
 
 from gateway import TykGateway as tyk
 from tyk.decorators import *
-import json, requests, base64, jwt, datetime
 
-logLevel = "info"
+import os
+import sys
+bundle_dir = os.path.abspath(os.path.dirname(__file__))
+tyk.log("-----------------| loading bundle |--- " + bundle_dir + "-----------------------", "info")
+for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
+  vendor_dir = os.path.join(bundle_dir, lib_dir)
+  tyk.log("vendor_dir |--- " + vendor_dir, "info")
+  sys.path.append(vendor_dir)
+
+import json, requests, jwt, datetime
 
 # Function for APIs usoing the Hydra tokens:
 # Still to do: ------------------------------------------------------------------------------
@@ -13,6 +21,7 @@ logLevel = "info"
 #--------------------------------------------------------------------------------------------
 @Hook
 def APICustomAuth(request, session, metadata, spec):
+    logLevel = "info"
     tyk.log("APICustomAuth Begin |---", logLevel)
 
     auth_token = request.get_header('Authorization')
@@ -96,3 +105,4 @@ def APICustomAuth(request, session, metadata, spec):
         tyk.log("APICustomAuth END |---", logLevel)
         return request, session, metadata
 
+tyk.log("--------------------------------------------------------------------------------", "info")

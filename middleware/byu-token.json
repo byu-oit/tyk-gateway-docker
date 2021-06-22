@@ -7,7 +7,6 @@
     "response": [
       {
         "name": "TokenResponseMiddleware",
-        "path": "middleware/byu-token.py"
       }
     ]
   }
