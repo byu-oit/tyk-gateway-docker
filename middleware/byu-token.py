@@ -1,8 +1,15 @@
 
 from gateway import TykGateway as tyk
 from tyk.decorators import *
-import json, requests, base64
-import jwt, datetime
+
+import os
+import sys
+bundle_dir = os.path.abspath(os.path.dirname(__file__))
+for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
+  vendor_dir = os.path.join(bundle_dir, lib_dir)
+  sys.path.append(vendor_dir)
+
+import json, requests, jwt, datetime
 
 @Hook
 def TokenResponseMiddleware(request, response, session, metadata, spec):
@@ -44,7 +51,7 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
     tyk.log(str(iData), logLevel)
 
 #   Generate JWT HERE or on first use of Token -----------------------------------------------
-    with open('/opt/tyk-gateway/middleware/jwtRS256.key', 'rb') as fh:
+    with open( bundle_dir + '/jwtRS256.key', 'rb') as fh:
         signing_key = jwt.jwk_from_pem(fh.read())
 
     new_jwt = jwt.JWT().encode(iData, signing_key, alg='RS256')
