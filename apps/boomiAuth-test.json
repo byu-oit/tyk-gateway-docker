@@ -1,6 +1,6 @@
 {
-  "name": "peopleSoft Add IP Test API",
-  "api_id": "108",
+  "name": "BoomiAuth Header Test",
+  "api_id": "104",
   "org_id": "default",
   "definition": {
     "location": "header",
@@ -18,16 +18,15 @@
   "custom_middleware": {
     "post": [
       {
-        "name": "peopleSoftAddIP",
-        "path": "./middleware/javascript/peopleSoftAddIP.js",
-        "require_session": false,
-        "raw_body_only": false
+        "name": "BoomiAuthMiddleware",
+        "path": "middleware/boomiAuth.py"
       }
-    ]
+    ],
+    "driver": "python"
   },
-  "driver": "otto",
+  "custom_middleware_bundle": "boomiAuth.zip",
   "proxy": {
-    "listen_path": "/ps-add-ip-test/",
+    "listen_path": "/boomi-test/",
     "target_url": "http://httpbin.org",
     "strip_listen_path": true
   }

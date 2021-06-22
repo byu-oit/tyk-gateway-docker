@@ -1,0 +1,14 @@
+{
+    "file_list": [
+        "boomiAuth.py"
+    ],
+    "custom_middleware": {
+        "driver": "python",
+        "post": [
+        {
+            "name": "BoomiAuthMiddleware",
+            "path": "middleware/boomiAuth.py"
+        }
+        ]
+    }
+}

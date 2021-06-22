@@ -19,13 +19,14 @@
       "post": [
         {
           "name": "serviceNowAuth",
-          "path": "./middleware/serviceNowAuth.js",
+          "path": "middleware/javascript/serviceNowAuth.py",
           "require_session": false,
           "raw_body_only": false
         }
-      ]
+      ],
+      "driver": "python"
     },
-    "driver": "otto",
+    "custom_middleware_bundle": "serviceNowAuth.zip",
     "proxy": {
       "listen_path": "/servicenow-test/",
       "target_url": "http://httpbin.org",

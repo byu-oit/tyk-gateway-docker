@@ -11,3 +11,4 @@ logHeaders.NewProcessRequest(function(request, session, config) {
 
     return logHeaders.ReturnData(request, {});
 });
+

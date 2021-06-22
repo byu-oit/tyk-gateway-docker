@@ -1,0 +1,14 @@
+{
+    "file_list": [
+        "rejectSmUserHeader.py"
+    ],
+    "custom_middleware": {
+        "driver": "python",
+        "post": [
+        {
+            "name": "rejectSmUserHeader",
+            "path": "middleware/rejectSmUserHeader.py"
+        }
+        ]
+    }
+}

@@ -19,7 +19,7 @@
     "pre": [
       {
         "name": "testJSVMData",
-        "path": "./middleware/injectHeader.js",
+        "path": "./middleware/javascript/injectHeader.js",
         "require_session": false,
         "raw_body_only": false
       }
@@ -27,7 +27,7 @@
     "post": [
       {
         "name": "byuEntityData",
-        "path": "./middleware/injectByuJwt.js",
+        "path": "./middleware/javascript/injectByuJwt.js",
         "require_session": false,
         "raw_body_only": false
       }

@@ -19,13 +19,14 @@
     "post": [
       {
         "name": "rejectSmUserHeader",
-        "path": "./middleware/rejectSmUserHeader.js",
+        "path": "./middleware/rejectSmUserHeader.py",
         "require_session": false,
         "raw_body_only": false
       }
-    ]
+    ],
+    "driver": "python"
   },
-  "driver": "otto",
+  "custom_middleware_bundle": "rejectSmUserHeader.zip",
   "proxy": {
     "listen_path": "/reject-smuser-test/",
     "target_url": "http://httpbin.org",

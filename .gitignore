@@ -3,6 +3,9 @@ tyk.compose.conf
 
 # Sedki
 bundle.zip
+./middleware/bundles/*
+./middleware/*.zip
+./middleware/jwtRS256.*
 
 #JetBrains
 .idea/*

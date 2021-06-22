@@ -367,3 +367,135 @@ curl -X POST -H "x-tyk-authorization: Zls7rrBtx7hwDfk2G6rSJUskBZc31D8I" \
 # HOT Reload CRITICAL
 curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
 curl -H "Authorization: 118f80271e85d4dd6921bed9f57b9094a" -s http://localhost:8080/echo-josh/ | python -mjson.tool
+
+# May 2021: hot reload Docker
+ curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
+{
+    "message": "",
+    "status": "ok"
+}
+
+# Create API key for echo west and JSVM
+curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
+  -s \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "allowance": 1000,
+    "rate": 1000,
+    "per": 1,
+    "expires": -1,
+    "quota_max": -1,
+    "org_id": "1",
+    "quota_renews": 1449051461,
+    "quota_remaining": -1,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "97": {
+        "api_id": "97",
+        "api_name": "Echo West",
+        "versions": ["Default"]
+      }
+    },
+    "meta_data": {"ClientID":""}
+  }' http://localhost:8080/tyk/keys/create | python -mjson.tool
+  #-------------
+  # Result
+  {
+    "action": "added",
+    "key": "18f656ee5e3d242ac950e4891f90a0010",
+    "key_hash": "5b8c8164",
+    "status": "ok"
+}
+
+#----------------------------
+# Hot Reload current setup
+curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/reload/group | python -mjson.tool
+
+
+curl -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" -s http://localhost:8080/tyk/keys | python -mjson.tool
+
+
+curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
+  -s \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "allowance": 1000,
+    "rate": 1000,
+    "per": 1,
+    "expires": -1,
+    "quota_max": -1,
+    "org_id": "1",
+    "quota_renews": 1449051461,
+    "quota_remaining": -1,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "197": {
+        "api_id": "197",
+        "api_name": "Echo West Python",
+        "versions": ["Default"]
+      }
+    },
+    "meta_data": {}
+  }' http://localhost:8080/tyk/keys/create | python -mjson.tool
+
+  #result
+{
+    "action": "added",
+    "key": "16ba7956176a24837af5f87a8b8e12aba",
+    "key_hash": "b7b260b6",
+    "status": "ok"
+}
+
+
+# ---- Reboot loses keys
+
+
+curl -X -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" http://localhost:8080/tyk/keys | python -mjson.tool
+
+curl -X POST -H "x-tyk-authorization: db471355-0424-423a-8f10-0d8f7618c479" \
+  -s \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{
+    "allowance": 1000,
+    "rate": 1000,
+    "per": 1,
+    "expires": -1,
+    "quota_max": -1,
+    "org_id": "1",
+    "quota_renews": 1449051461,
+    "quota_remaining": -1,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "1001": {
+        "api_id": "1001",
+        "api_name": "Hydra Token Request",
+        "versions": ["Default"]
+      }
+    },
+    "meta_data": {}
+  }' http://localhost:8080/tyk/keys/create | python -mjson.tool
+# --------
+{
+    "action": "added",
+    "key": "1be36639238c141ad819fab72fed109ff",
+    "key_hash": "1ab3e40a",
+    "status": "ok"
+}
+
+# Introspection Body
+{
+    "active": true,
+    "scope": "openid hydra-clients token-introspection offline_access",
+    "client_id": "test",
+    "sub": "test",
+    "exp": 1622755268,
+    "iat": 1622751667,
+    "iss": "https://oauth.api-dev.byu.edu/",
+    "token_type": "access_token"
+}
+
+# Adding token for policy
+

@@ -1,0 +1,28 @@
+# default builder
+docker run \
+ --rm -w "/tmp" -v $(pwd):/tmp \
+  --entrypoint "/bin/sh" -it \
+   tykio/tyk-gateway:v3.1.2 \
+  -c '/opt/tyk-gateway/tyk bundle build -y'
+
+# modified for specific file names pattern.
+docker run \
+  --rm -w "/tmp" -v $(pwd):/tmp \
+    --entrypoint "/bin/sh" -it \
+      tykio/tyk-gateway:v3.1.2 \
+    -c '/opt/tyk-gateway/tyk bundle build -y -m byu-token.json -o byu-token.zip'
+
+# private key is in pem file already
+# modified for specific file names pattern.
+docker run \
+  --rm -w "/tmp" -v $(pwd):/tmp \
+    --entrypoint "/bin/sh" -it \
+      tykio/tyk-gateway:v3.1.2 \
+    -c '/opt/tyk-gateway/tyk bundle build -y -m api-custom-auth.json -o api-custom-auth.zip'
+
+
+
+
+
+# upload to the Cloud
+./mservctl.macos.amd64 --config python.mservctl.yaml push bundle.zip
