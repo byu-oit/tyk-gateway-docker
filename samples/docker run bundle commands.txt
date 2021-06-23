@@ -26,3 +26,8 @@ docker run \
 
 # upload to the Cloud
 ./mservctl.macos.amd64 --config python.mservctl.yaml push bundle.zip
+../../mservctl.macos.amd64 --config python.mservctl.yaml push byu-token.zip
+../../mservctl.macos.amd64 --config python.mservctl.yaml push api-custom-auth.zip
+
+# builds the packages for the {bundle} see requirements.txt in same folder
+ pip3 install -r requirements.txt -t ./vendor/lib/python3.7/site-packages/

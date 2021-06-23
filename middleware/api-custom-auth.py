@@ -11,7 +11,7 @@ for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
   tyk.log("vendor_dir |--- " + vendor_dir, "info")
   sys.path.append(vendor_dir)
 
-import json, requests, jwt, datetime
+import json, requests, jwt, base64, datetime
 
 # Function for APIs usoing the Hydra tokens:
 # Still to do: ------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ def APICustomAuth(request, session, metadata, spec):
 #         tyk.log("base64encoded JWT from Redis = " + token_decoded, logLevel)
 
 #       Validate JWT HERE or on first use of Token -----------------------------------------------
-        with open('/opt/tyk-gateway/middleware/jwtRS256.pub.jwk', 'rb') as fh:
+        with open( bundle_dir + '/jwtRS256.pub.jwk', 'rb') as fh:
             verifying_key = jwt.jwk_from_dict(json.load(fh))
 
 #         tyk.log("verify_key: " + str(verifying_key), logLevel)
@@ -86,7 +86,7 @@ def APICustomAuth(request, session, metadata, spec):
             tyk.log(str(cur_jwt), logLevel)
 
 #           RE-Generate JWT HERE  -----------------------------------------------
-            with open('/opt/tyk-gateway/middleware/jwtRS256.key', 'rb') as fh:
+            with open( bundle_dir + '/jwtRS256.key', 'rb') as fh:
                 signing_key = jwt.jwk_from_pem(fh.read())
 
             new_jwt = jwt.JWT().encode(cur_jwt, signing_key, alg='RS256')

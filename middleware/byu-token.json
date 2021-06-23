@@ -6,7 +6,7 @@
     "driver": "python",
     "response": [
       {
-        "name": "TokenResponseMiddleware",
+        "name": "TokenResponseMiddleware"
       }
     ]
   }

@@ -9,7 +9,7 @@ for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
   vendor_dir = os.path.join(bundle_dir, lib_dir)
   sys.path.append(vendor_dir)
 
-import json, requests, jwt, datetime
+import json, requests, jwt, base64, datetime
 
 @Hook
 def TokenResponseMiddleware(request, response, session, metadata, spec):
@@ -31,6 +31,7 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
 #     tyk.log("|--- scope = " +  str(scope), logLevel)
 
 #   Token Introspection ----------------------------------------------------------------------
+#   Environment friendly re-factor here.
     token_url = "https://oauth.api-dev.byu.edu/oauth2/introspect"
     data = {'token': access_token}
     headersData = {
