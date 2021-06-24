@@ -18,7 +18,7 @@ module "setup" {
   portal_url    = "respectable-parchment-dev.aws-usw2.cloud-ara.tyk.io"
   dashboard_url = "respectable-parchment-adm.aws-usw2.cloud-ara.tyk.io"
   west_gw_url   = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
-  east_gw_url   = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
+  east_gw_url   = "important-insect-gw.aws-use1.cloud-ara.tyk.io"
   provo_gw_url  = "melodic-hide-gw.aws-usw2.cloud-ara.tyk.io"
 }
 
