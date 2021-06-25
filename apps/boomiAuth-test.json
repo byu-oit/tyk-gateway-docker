@@ -15,15 +15,6 @@
       }
     }
   },
-  "custom_middleware": {
-    "post": [
-      {
-        "name": "BoomiAuthMiddleware",
-        "path": "middleware/boomiAuth.py"
-      }
-    ],
-    "driver": "python"
-  },
   "custom_middleware_bundle": "boomiAuth.zip",
   "proxy": {
     "listen_path": "/boomi-test/",

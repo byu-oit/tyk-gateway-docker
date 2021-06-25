@@ -5,10 +5,9 @@
     "custom_middleware": {
         "driver": "python",
         "post": [
-        {
-            "name": "BoomiAuthMiddleware",
-            "path": "middleware/boomiAuth.py"
-        }
+            {
+                "name": "BoomiAuthMiddleware"
+            }
         ]
     }
 }
