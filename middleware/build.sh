@@ -2,8 +2,8 @@
 dir="$(pwd)"
 vendordir="vendor"
 
-#for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
-for bundle in boomiAuth
+for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
+# for bundle in boomiAuth
 do
   /bin/rm -f ${bundle}.zip
   cd ${bundle}
@@ -15,6 +15,9 @@ do
   elif [[ ! -d $vendordir ]]; then
     echo "$dir already exists but is not a directory" 1>&2
   fi
+
+  # add required package to vendor directory
+  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "pip3 install -r requirements.txt -t $vendordir/lib/python3.7/site-packages/"
 
   # build byuutil and install in vendor directory
   pip3 install --upgrade -t ./$vendordir/lib/python3.7/site-packages/ ${dir}/byuutil

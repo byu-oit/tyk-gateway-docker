@@ -17,5 +17,5 @@ apps/importTest.json
 **/.terraform/*
 *.tfstate
 
-# boomiAuth
-./middleware/boomiAuth/vendor/*
+# middleware vendor directories
+vendor/
