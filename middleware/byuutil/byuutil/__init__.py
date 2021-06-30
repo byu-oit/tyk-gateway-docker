@@ -1,2 +1,2 @@
-from . import headerUtil
-from .headerUtil import *
+# __init__.py
+import byuutil.headerUtil

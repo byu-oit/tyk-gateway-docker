@@ -8,8 +8,7 @@ for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
   vendor_dir = os.path.join(bundle_dir, lib_dir)
   sys.path.append(vendor_dir)
 
-# from byuutil import *
-import byuutil as byu
+import byuutil.headerUtil as byu
 
 @Hook
 def BoomiAuthMiddleware(request, session, spec):
