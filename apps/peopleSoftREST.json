@@ -15,17 +15,7 @@
         }
       }
     },
-    "custom_middleware": {
-      "post": [
-        {
-          "name": "peopleSoftREST",
-          "path": "./middleware/javascript/peopleSoftREST.js",
-          "require_session": false,
-          "raw_body_only": false
-        }
-      ]
-    },
-    "driver": "otto",
+    "custom_middleware_bundle": "peopleSoft.zip",
     "proxy": {
       "listen_path": "/peoplesoftrest-test/",
       "target_url": "http://httpbin.org",

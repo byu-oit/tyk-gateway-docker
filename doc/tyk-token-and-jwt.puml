@@ -27,11 +27,9 @@ group "API Call"
                 gw --> client : 401
                 note right: Done
             end
-            gw -> persons : get_person(byu_id)
-            persons --> gw : person_data
             gw -> persons : get_person(client_id)
-            persons --> gw : person_data
-            gw -> gw : construct_jwt(person_data)
+            persons --> gw : client_person_data
+            gw -> gw : construct_jwt(ro_claims, client_person_data)
             gw -> jwt : put_jwt(token, JWT, 15 min ttl)
         end
         gw -> gw : tag_headers(client_id)

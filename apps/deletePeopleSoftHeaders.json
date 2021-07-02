@@ -1,6 +1,6 @@
 {
   "name": "add Peoplesoft SW Security Header Test API",
-  "api_id": "105",
+  "api_id": "api-107",
   "org_id": "default",
   "definition": {
     "location": "header",
@@ -15,17 +15,7 @@
       }
     }
   },
-  "custom_middleware": {
-    "pre": [
-      {
-        "name": "deletePeopleSoftHeaders",
-        "path": "./middleware/javascript/deletePeopleSoftHeaders.js",
-        "require_session": false,
-        "raw_body_only": false
-      }
-    ]
-  },
-  "driver": "otto",
+  "custom_middleware_bundle": "peopleSoft.zip",
   "proxy": {
     "listen_path": "/delete-ps-headers-test/",
     "target_url": "http://httpbin.org",
