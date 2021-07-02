@@ -1,6 +1,6 @@
 {
   "file_list": [
-    "byu-token.py"
+    "byuToken.py"
   ],
   "custom_middleware": {
     "driver": "python",

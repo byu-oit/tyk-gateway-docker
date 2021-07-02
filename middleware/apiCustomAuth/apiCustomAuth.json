@@ -1,6 +1,6 @@
 {
   "file_list": [
-    "api-custom-auth.py"
+    "apiCustomAuth.py"
   ],
   "custom_middleware": {
     "driver": "python",

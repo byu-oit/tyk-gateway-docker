@@ -4,7 +4,7 @@
   "listen_port": 0,
   "protocol": "",
   "enable_proxy_protocol": false,
-  "api_id": "1001",
+  "api_id": "api-1001",
   "org_id": "default",
   "use_keyless": true,
   "use_oauth2": false,
@@ -149,12 +149,7 @@
       "require_session": false,
       "raw_body_only": false
     },
-    "response": [
-      {
-        "name": "TokenResponseMiddleware",
-        "path": "middleware/byu-token.py"
-      }
-    ],
+    "response": [],
     "driver": "python",
     "id_extractor": {
       "extract_from": "",
@@ -162,7 +157,7 @@
       "extractor_config": null
     }
   },
-  "custom_middleware_bundle": "byu-token.zip",
+  "custom_middleware_bundle": "byuToken.zip",
   "cache_options": {
     "cache_timeout": 0,
     "enable_cache": false,

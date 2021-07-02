@@ -10,6 +10,6 @@ do
   then
     echo "[WARN]${bundle}.zip not built!"
   else
-    zip -ur ${bundle}.zip vendor/ ./jwtRS256.key ./jwtRS256.pub.jwk
+    zip -ur ${bundle}.zip vendor/ jwtRS256.key jwtRS256.pub.jwk
   fi
 done

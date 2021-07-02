@@ -2,7 +2,7 @@
 dir="$(pwd)"
 vendordir="vendor"
 
-for bundle in boomiAuth serviceNowAuth rejectSmUserHeader
+for bundle in boomiAuth serviceNowAuth rejectSmUserHeader byuToken apiCustomAuth
 # for bundle in boomiAuth
 do
   /bin/rm -f ${bundle}.zip
@@ -11,13 +11,17 @@ do
 
   # create vendor directory if it does not exist
   if [[ ! -e $vendordir ]]; then
-    mkdir $dir
+    mkdir $vendordir
   elif [[ ! -d $vendordir ]]; then
-    echo "$dir already exists but is not a directory" 1>&2
+    echo "$vendordir already exists but is not a directory" 1>&2
+  fi
+
+  if [[ ! -e requirements.txt ]]; then
+    touch requirements.txt
   fi
 
   # add required package to vendor directory
-  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "pip3 install -r requirements.txt -t $vendordir/lib/python3.7/site-packages/"
+  docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "pip3 install --upgrade -r requirements.txt -t $vendordir/lib/python3.7/site-packages/"
 
   # build byuutil and install in vendor directory
   pip3 install --upgrade -t ./$vendordir/lib/python3.7/site-packages/ ${dir}/byuutil
@@ -26,8 +30,7 @@ do
   docker run --rm -w "/tmp" -v $(pwd):/tmp --entrypoint "/bin/sh" -it tykio/tyk-gateway:v3.1.2 -c "/opt/tyk-gateway/tyk bundle build -y -m ${bundle}.json -o ${bundle}.zip"
   
   # check to see if bundle was built
-  if [[ ! -f ${bundle}.zip ]]
-  then
+  if [[ ! -f ${bundle}.zip ]] ; then
     echo "[WARN]${bundle}.zip not built!"
   else
     zip -ur ${bundle}.zip $vendordir/
@@ -36,7 +39,17 @@ do
   # mv bundle file to middleware directory
   mv ${bundle}.zip ${dir}
   rm -rf tyk-middleware-path*
-  cd ..
+  cd ${dir}
+
+  # if making these specific bundles add the cert files
+  if [[ -f ${bundle}.zip ]] ; then
+    if [[ ${bundle} = 'byuToken' || ${bundle} = 'apiCustomAuth' ]]; then
+      zip -u ${bundle}.zip jwtRS256.key jwtRS256.pub.jwk
+      echo "Certs Copied into zip."
+    fi
+  else
+    echo "[WARN]${bundle}.zip not found so certs not copied in!"
+  fi
   echo $(pwd)
 
 done

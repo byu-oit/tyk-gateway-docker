@@ -67,4 +67,5 @@ def TokenResponseMiddleware(request, response, session, metadata, spec):
 #     tyk.log("access_token data stored = " + str(token_data), logLevel)
 
     tyk.log("TokenResponseMiddleware END |---", logLevel)
+    request.add_header('APICustomAuth', 'Finished Again')
     return request, response, session, metadata, spec
