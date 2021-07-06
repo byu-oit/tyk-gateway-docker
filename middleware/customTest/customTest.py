@@ -12,14 +12,9 @@ for lib_dir in [ 'vendor/lib/python3.7/site-packages/' ]:
 
 import json, requests, jwt, base64, datetime
 
-# Function for APIs usoing the Hydra tokens:
-# Still to do: ------------------------------------------------------------------------------
-#   2. put URLs in the config_data of api json and use instead.
-#   3. put private keys for signing into global code, pull from disk first keep in mem using Singleton pattern
-#   4. upload to cloud, add package files to bundle in build.sh like Peter
 #--------------------------------------------------------------------------------------------
 @Hook
-def APICustomAuth(request, session, metadata, spec):
+def CustomTest(request, session, metadata, spec):
     logLevel = "info"
     tyk.log("APICustomAuth Begin |---", logLevel)
     request.add_header('APICustomAuth', 'Begin')
@@ -67,7 +62,6 @@ def APICustomAuth(request, session, metadata, spec):
         tyk.log("base64encoded JWT from Redis = " + token_decoded, logLevel)
         request.add_header('APICustomAuth-fromRedis', str(token_decoded))
 #       Validate JWT HERE or on first use of Token -----------------------------------------------
-#       Move this part to Glogal Scope above.
         try:
             with open( bundle_dir + '/jwtRS256.pub.jwk', 'rb') as fh:
                 verifying_key = jwt.jwk_from_dict(json.load(fh))
@@ -106,8 +100,8 @@ def APICustomAuth(request, session, metadata, spec):
             cur_jwt = new_jwt
         else:
             tyk.log("JWT is valid ------------", logLevel)
-            tyk.log(str(token_data), logLevel)
-            request.add_header('APICustomAuth-curJWT-V', str(token_data))
+            tyk.log(token_data, logLevel)
+            request.add_header('APICustomAuth-curJWT-V', token_data)
 
 #       Add data to metadata object for tyk analytics and so it autoGens a key ----------
 #         session.rate = 1000.0
