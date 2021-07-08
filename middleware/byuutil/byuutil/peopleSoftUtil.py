@@ -8,10 +8,11 @@ def deletePeopleSoftHeaders(request):
     LogHeaders(request.object.headers)
 
     # Normalized list of header keys
-    headerKeys = ["Sm-User", "Principal-Net-Id", "Principal-Byu-Id", "Principal-Id", "Actor-Id", "Actor-Byu-Id", "Actor-Net-Id"]
+    headerKeys = ["Sm-User", "Principal-Net-Id", "Principal-Byu-Id", "Principal-Id", "Actor-Id", "Actor-Byu-Id", "Actor-Net-Id", "Test-Header-Key"]
 
     # iterate through headers and check against headerKeys list
     for key, value in request.object.headers.items():
         if normalizeHeaderKey(key) in headerKeys:
-            tyk.log("+++ REMOVE header: " + key + "->" + value, "info")
+            tyk.log("--- REMOVE header: " + key + "->" + value, "info")
             request.delete_header(key)
+

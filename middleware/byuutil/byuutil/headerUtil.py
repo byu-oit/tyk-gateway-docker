@@ -12,3 +12,9 @@ def normalizeHeaderKey(str):
     # joins elements of list1 by '-'
     retStr = '-'.join(seperateWord)
     return retStr
+
+def getHeaderValue(headers, str):
+    for key, value in headers.items():
+        if normalizeHeaderKey(key) == str:
+            return value
+    return None

@@ -2,8 +2,8 @@
 dir="$(pwd)"
 vendordir="vendor"
 
-for bundle in boomiAuth serviceNowAuth rejectSmUserHeader byuToken apiCustomAuth
-# for bundle in boomiAuth
+# for bundle in boomiAuth serviceNowAuth rejectSmUserHeader peopleSoft
+for bundle in peopleSoft
 do
   /bin/rm -f ${bundle}.zip
   cd ${bundle}
@@ -14,10 +14,6 @@ do
     mkdir $vendordir
   elif [[ ! -d $vendordir ]]; then
     echo "$vendordir already exists but is not a directory" 1>&2
-  fi
-
-  if [[ ! -e requirements.txt ]]; then
-    touch requirements.txt
   fi
 
   # add required package to vendor directory
