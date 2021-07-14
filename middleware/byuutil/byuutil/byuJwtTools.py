@@ -29,6 +29,20 @@ byuResourceOwnerClaims = {
     "http://byu.edu/claims/resourceowner_suffix": ""
 }
 
+tykClaimsRoot = {
+    "http://tyk.io/claims/"
+}
+
+tykClaims = {
+    "http://tyk.io/claims/client_id" : "",
+    "http://tyk.io/claims/version" : "",
+    "http://tyk.io/claims/environment" : "",
+    "http://tyk.io/claims/apicontext" : ""
+}
+
+def getEmptyJWT():
+
+
 # Hydra Response
 # {
 #     'active':  True,

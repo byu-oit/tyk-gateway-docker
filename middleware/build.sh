@@ -2,8 +2,8 @@
 dir="$(pwd)"
 vendordir="vendor"
 
-# for bundle in boomiAuth serviceNowAuth rejectSmUserHeader peopleSoft
-for bundle in peopleSoft
+for bundle in byuToken apiCustomAuth boomiAuth serviceNowAuth rejectSmUserHeader peopleSoft
+#for bundle in apiCustomAuth
 do
   /bin/rm -f ${bundle}.zip
   cd ${bundle}

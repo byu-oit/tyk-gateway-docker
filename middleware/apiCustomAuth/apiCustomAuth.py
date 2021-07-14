@@ -22,7 +22,6 @@ import json, requests, jwt, base64, datetime
 def APICustomAuth(request, session, metadata, spec):
     logLevel = "info"
     tyk.log("APICustomAuth Begin |---", logLevel)
-    request.add_header('APICustomAuth', 'Begin')
 
     auth_token = request.get_header('Authorization')
 #     tyk.log("|--- auth_token=" + auth_token, logLevel)
@@ -39,20 +38,16 @@ def APICustomAuth(request, session, metadata, spec):
     }
     access_token_response = requests.post(token_url, data=data, headers=headersData)
 #     tyk.log(access_token_response.text, logLevel)
-
     iData = json.loads(access_token_response.text)
     tyk.log("iData: " + str(iData), logLevel)
-    request.add_header('APICustomAuth-introspection', str(iData))
+
 #   Hydra returns error data instead --------------------------------------------------------
     if 'error' in iData:
         tyk.log("ERROR FROM HYDRA :----------", logLevel)
-#         tyk.log("request.ReturnOverrides: " + str(request.object.return_overrides), logLevel)
         request.object.return_overrides.headers['content-type'] = 'application/json'
         request.object.return_overrides.response_code = iData['error']['code']
         request.object.return_overrides.response_error = iData['error']['message'] + ": status = " + iData['error']['status']
-#         tyk.log("request.ReturnOverrides: " + str(request.object.return_overrides), logLevel)
         tyk.log("THIS REQUEST IS DENIED DUE TO EXPIRED ACCESS TOKEN: " + auth_token, logLevel)
-        request.add_header('APICustomAuth-error-Block', 'THIS REQUEST IS DENIED DUE TO EXPIRED ACCESS TOKEN')
         return request, session, metadata
     else:
         client_id = iData['client_id']
@@ -65,7 +60,6 @@ def APICustomAuth(request, session, metadata, spec):
 #         tyk.log(str(token_data), logLevel)
         token_decoded = token_data.decode()
         tyk.log("base64encoded JWT from Redis = " + token_decoded, logLevel)
-        request.add_header('APICustomAuth-fromRedis', str(token_decoded))
 #       Validate JWT HERE or on first use of Token -----------------------------------------------
 #       Move this part to Glogal Scope above.
         try:
@@ -73,21 +67,22 @@ def APICustomAuth(request, session, metadata, spec):
                 verifying_key = jwt.jwk_from_dict(json.load(fh))
         except:
             request.add_header('APICustomAuth-getJWK', 'failed')
+            tyk.log("Get Verifying Key: ---------FAILED!!! ", logLevel)
+            #move this code outside into the Global layer and test it out.
         else:
             request.add_header('APICustomAuth-getJWK', 'success')
+            tyk.log("Get Verifying Key: ---------Success ", logLevel)
+            tyk.log("verify_key: " + str(verifying_key), logLevel)
 
-#         tyk.log("verify_key: " + str(verifying_key), logLevel)
-#         tyk.log("get decoded JWT: ---------", logLevel)
-
-#         This is where the JWT may not pass the time check....
+        #         This is where the JWT may not pass the time check....
+        tyk.log("Now... get decoded JWT: ---------", logLevel)
         try:
             cur_jwt = jwt.JWT().decode(token_decoded, verifying_key, do_time_check=True)
 
         except:
             tyk.log("JWTDecode threw exception -------", logLevel)
             cur_jwt = jwt.JWT().decode(token_decoded, verifying_key, do_time_check=False)
-            tyk.log("jwt UTF-8: " + str(cur_jwt), logLevel)
-            request.add_header('APICustomAuth-curJWT-X', str(cur_jwt))
+#             tyk.log("jwt UTF-8: " + str(cur_jwt), logLevel)
 
             exp = cur_jwt['exp']
             nowInt = datetime.datetime.utcnow() + datetime.timedelta(seconds=899)
@@ -107,7 +102,6 @@ def APICustomAuth(request, session, metadata, spec):
         else:
             tyk.log("JWT is valid ------------", logLevel)
             tyk.log(str(token_data), logLevel)
-            request.add_header('APICustomAuth-curJWT-V', str(token_data))
 
 #       Add data to metadata object for tyk analytics and so it autoGens a key ----------
 #         session.rate = 1000.0
@@ -117,7 +111,6 @@ def APICustomAuth(request, session, metadata, spec):
         metadata["token"] = auth_token
         request.add_header('X-Jwt-Assertion', token_data)
         tyk.log("APICustomAuth END |---", logLevel)
-        request.add_header('APICustomAuth-plugin', 'finished')
         return request, session, metadata
 
 tyk.log("--------------------------------------------------------------------------------", "info")
